@@ -101,7 +101,7 @@ socket.on("connection", function(client) {
               client.on("message", function(q) {
                             console.log("client kara query ga kita.");
                             console.log(q);
-                            client.broadcast(q); // for other clients
+                            // client.broadcast(q); // for other clients
                             client.send(q); // for current client
                         });
           });

@@ -12,7 +12,6 @@ function send() {
     console.log(q);
 
     socket.send(json({q: q}));
-    // socket.send("foo");
 };
 
 
