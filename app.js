@@ -58,57 +58,33 @@ app.get('/api', function(req, res){
                                  callback(null, bing_conf);
                              },
                              function(arg, callback) {
-                                 var path = arg.path + "?" + require('querystring').stringify({sources: "web",
-                                                                                               Appid: arg.appid,
-                                                                                               query: req.param("q")});
-                                 console.log("master: " + path);
+                                 var path =
+                                     arg.path + "?" + require('querystring')
+                                     .stringify({sources: "web",
+                                                 Appid: arg.appid,
+                                                 query: req.param("q")});
 
                                  http.get({ host: arg.host,
                                             path: path,
                                             port: 80},
-                                          function(res) {
+                                          function(bing_res) {
                                               var json ="";
-                                              res.setEncoding("utf8");
-                                              res.on("data", function(chunk) {
-                                                         json += chunk;
-                                                     });
-                                              res.on("end", function(chunk) {
-                                                         callback(null, json);
-                                                     });
+                                              bing_res.setEncoding("utf8");
+                                              bing_res.on("data", function(chunk) {
+                                                              json += chunk;
+                                                          });
+                                              bing_res.on("end", function(chunk) {
+                                                              callback(null, json);
+                                                          });
                                           }).on("error", function(e) {
                                                     console.log("Got error: " + e.message);
                                                 });
-                             },
-                             function(arg, callback) {
-                                 console.log("kita? " + arg);
                              }
-                            ], function(err, result) {
-                                if (err) {
-                                }
-                                console.log("Water fall all done??" + result);
-                            });
-
-            res.send("toriaezu, nanika, kaeshite oku.");
-        });
-app.get('/async', function(req, res){
-            async.waterfall([
-                                function(callback) {
-                                    console.log("first");
-                                    callback(null, "oh!")
-                                },
-                                function(arg, callback) {
-                                    console.log("second" + arg);
-                                    callback(null, "yeah1");
-                                },
-                                function(arg, callback) {
-                                    console.log("third");
-                                    callback(null, "baby!")
-                                }
                             ], function(err, result) {
                                 if (err) {
                                     throw err;
                                 }
-                                console.log("Water fall all done??" + result);
+                                res.send(result);
                             });
         });
 
