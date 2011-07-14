@@ -10,7 +10,6 @@ var async = require('async');
 var http = require('http');
 var calc = require("./lib/calc"); // remove it later
 var bing = require("./lib/bing");
-// var json = JSON.stringify;
 
 var app = module.exports = express.createServer();
 
@@ -51,7 +50,8 @@ app.get('/test', function(req, res){
             res.send("Hi!");
         });
 app.get('/api', function(req, res){
-            bing.search("sushi", function(result) {
+            bing.search(req.param("q"), function(result) {
+                            res.setHeader("Content-Type", "application/json; charset=utf-8");
                             res.send(result);
                         });
         });
