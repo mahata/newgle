@@ -47,45 +47,13 @@ app.get('/test', function(req, res){
             console.log("sub: " + calc.sub(10, 2));
             console.log("mul: " + calc.mul(10, 2));
             console.log("div: " + calc.div(10, 2));
-            console.log("bing: " + bing.a());
 
             res.send("Hi!");
         });
 app.get('/api', function(req, res){
-            async.waterfall([function(callback) {
-                                 var fs = require("fs");
-                                 var bing_conf = JSON.parse(fs.readFileSync("./conf/bing.json", "utf-8"));
-                                 callback(null, bing_conf);
-                             },
-                             function(arg, callback) {
-                                 var path =
-                                     arg.path + "?" + require('querystring')
-                                     .stringify({sources: "web",
-                                                 Appid: arg.appid,
-                                                 query: req.param("q")});
-
-                                 http.get({ host: arg.host,
-                                            path: path,
-                                            port: 80},
-                                          function(bing_res) {
-                                              var json ="";
-                                              bing_res.setEncoding("utf8");
-                                              bing_res.on("data", function(chunk) {
-                                                              json += chunk;
-                                                          });
-                                              bing_res.on("end", function(chunk) {
-                                                              callback(null, json);
-                                                          });
-                                          }).on("error", function(e) {
-                                                    console.log("Got error: " + e.message);
-                                                });
-                             }
-                            ], function(err, result) {
-                                if (err) {
-                                    throw err;
-                                }
-                                res.send(result);
-                            });
+            bing.search("sushi", function(result) {
+                            res.send(result);
+                        });
         });
 
 if (!module.parent) {
