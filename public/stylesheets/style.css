@@ -31,8 +31,16 @@ div.search-result-subtle-info {
     font-size: small;
 }
 
+p.search-result-desc {
+    margin: 0px;
+}
+
 span.search-result-disp-url {
     color: #0e774a;
+}
+
+ul.search-result-deep-link {
+    font-size: small;
 }
 
 hr#separator {

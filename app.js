@@ -38,7 +38,7 @@ app.configure('production', function(){
 // --
 app.get('/', function(req, res){
             res.render('index', {
-                           title: 'ウェブ検索'
+                           title: 'Newgle'
                        });
         });
 app.get('/test', function(req, res){
