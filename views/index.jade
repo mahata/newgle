@@ -1,5 +1,17 @@
-h1= title
-p Welcome to #{title}
-form#form(onsubmit='send(); return false;')
-  input#text(type='text', id='q', placeholder='検索クエリ', autofocus='on')
-  input(type='submit', value='送信')
+//- h1= title
+
+table
+  tbody
+    tr
+      td
+        img(src="/images/newgle-small.png", alt="logo")
+      td
+        form#form(onsubmit="send(); search(); return false;")
+          input#text(type="text", id="q", size="48", placeholder="検索クエリ", autofocus="on")
+          input(type="submit", value="検索")
+
+hr(id="separator")
+
+div(id="search-region")
+
+

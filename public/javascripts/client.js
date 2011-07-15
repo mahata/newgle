@@ -14,4 +14,13 @@ function send() {
     socket.send(json({q: q}));
 };
 
-
+function search() {
+    console.log("do nothing temporarily.");
+    $.getJSON("/api", {q: "mixi"}, function(json) {
+                  console.log("search js: " + json);
+                  // var json_obj = JSON.parse(json);
+                  // console.log("search js: " + json);
+                  console.log("search js: " + JSON.stringify(json));
+                  
+              });
+}
