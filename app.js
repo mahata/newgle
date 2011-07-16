@@ -10,6 +10,7 @@ var async = require('async');
 var http = require('http');
 var calc = require("./lib/calc"); // remove it later
 var bing = require("./lib/bing");
+var segmenter = require("./lib/segmenter");
 
 var app = module.exports = express.createServer();
 
@@ -48,6 +49,11 @@ app.get('/test', function(req, res){
             console.log("div: " + calc.div(10, 2));
 
             res.send("Hi!");
+        });
+app.get('/test2', function(req, res){
+            var _segmenter = new segmenter.TinySegmenter();
+            var segs = _segmenter.segment("私の名前は中野です");
+            res.send(segs.join(" | ")); // 
         });
 app.get('/api', function(req, res){
             bing.search(req.param("q"), function(result) {

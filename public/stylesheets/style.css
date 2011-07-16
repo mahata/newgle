@@ -4,7 +4,7 @@ body {
 }
 
 a {
-    color: #00b7ff;
+    // color: #00b7ff;
 }
 
 a:visited {
@@ -20,6 +20,7 @@ a.search-result-cache {
 }
 
 h2.search-result-title {
+    font-size: 1.4em;
     margin: 0px;
 }
 
