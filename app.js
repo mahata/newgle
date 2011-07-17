@@ -38,7 +38,8 @@ app.configure('production', function(){
 // Routes
 // --
 app.get('/', function(req, res){
-            res.render('index', {
+            // res.render('index', {
+            res.render('search', {
                            title: 'Newgle'
                        });
         });
@@ -56,7 +57,8 @@ app.get('/test2', function(req, res){
             res.send(segs.join(" | "));
         });
 app.get('/api', function(req, res){
-            bing.search(req.param("q"), function(result) {
+            // bing.search(req.param("q"), function(result) {
+            bing.search(req, function(result) {
                             res.setHeader("Content-Type", "application/json; charset=utf-8");
                             res.send(result);
                         });
@@ -64,10 +66,16 @@ app.get('/api', function(req, res){
 app.get('/permanent', function(req, res){
             // req.param("q")
             // req.param("page");
-            // req.param("kind");
-            cnosole.log("q: query");
-            cnosole.log("page: page number");
-            cnosole.log("kind: kind of search (web, image, video and so on...)");
+            // req.param("sources");
+            console.log("q: query");
+            console.log("page: page number");
+            console.log("sources: kind of search (web, image, video and so on...)");
+
+            // res.render('index', {
+            res.render('search', {
+                           title: "Newgle",
+                           q: req.param("q")
+                       });
         });
 
 if (!module.parent) {
