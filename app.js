@@ -53,13 +53,21 @@ app.get('/test', function(req, res){
 app.get('/test2', function(req, res){
             var _segmenter = new segmenter.TinySegmenter();
             var segs = _segmenter.segment("私の名前は中野です");
-            res.send(segs.join(" | ")); // 
+            res.send(segs.join(" | "));
         });
 app.get('/api', function(req, res){
             bing.search(req.param("q"), function(result) {
                             res.setHeader("Content-Type", "application/json; charset=utf-8");
                             res.send(result);
                         });
+        });
+app.get('/permanent', function(req, res){
+            // req.param("q")
+            // req.param("page");
+            // req.param("kind");
+            cnosole.log("q: query");
+            cnosole.log("page: page number");
+            cnosole.log("kind: kind of search (web, image, video and so on...)");
         });
 
 if (!module.parent) {
