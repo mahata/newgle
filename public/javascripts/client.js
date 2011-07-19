@@ -8,12 +8,20 @@ socket.on("message", function(message) {
           });
 
 function search() {
-    // socket.send(json({q: q}));
-
     console.log("did search.");
+
     $.getJSON("/api", {q: $("#q").val()}, function(json) {
+                  $("#search-summary").css("display","block");
+                  $("#bing-logo").css("display","block");
                   $("#search-region").html("");
-                  console.log("search js: " + json);
+;
+                  $("#search-word").text($("#q").val());
+                  $("#search-hit-range-from").text(json.SearchResponse.Web.Offset + 1);
+                  $("#search-hit-range-to").text(json.SearchResponse.Web.Offset +
+                                                 json.SearchResponse.Web.Results.length);
+                  $("#search-hit-num").text(
+                      json.SearchResponse.Web.Total.toString()
+                          .replace(/([0-9]+?)(?=(?:[0-9]{3})+$)/g , "$1,"));
 
                   for (var i = 0; i < json.SearchResponse.Web.Results.length; i++) {
                       var deep_link = "";

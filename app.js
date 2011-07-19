@@ -38,9 +38,12 @@ app.configure('production', function(){
 // Routes
 // --
 app.get('/', function(req, res){
+            // console.log(req);
+            // console.log(req.url);
             // res.render('index', {
             res.render('search', {
-                           title: 'Newgle'
+                           title: 'Newgle',
+                           q: req.param("q")
                        });
         });
 app.get('/test', function(req, res){
@@ -63,20 +66,20 @@ app.get('/api', function(req, res){
                             res.send(result);
                         });
         });
-app.get('/permanent', function(req, res){
-            // req.param("q")
-            // req.param("page");
-            // req.param("sources");
-            console.log("q: query");
-            console.log("page: page number");
-            console.log("sources: kind of search (web, image, video and so on...)");
+// app.get('/permanent', function(req, res){
+//             // req.param("q")
+//             // req.param("page");
+//             // req.param("sources");
+//             console.log("q: query");
+//             console.log("page: page number");
+//             console.log("sources: kind of search (web, image, video and so on...)");
 
-            // res.render('index', {
-            res.render('search', {
-                           title: "Newgle",
-                           q: req.param("q")
-                       });
-        });
+//             // res.render('index', {
+//             res.render('search', {
+//                            title: "Newgle",
+//                            q: req.param("q")
+//                        });
+//         });
 
 if (!module.parent) {
     app.listen(3000);

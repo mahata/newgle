@@ -10,8 +10,21 @@ table
           input#text(type="text", id="q", size="48", placeholder="検索クエリ", autofocus="on")
           input(type="submit", value="検索")
 
-hr(id="separator")
+// hr(id="separator")
+div(id="search-summary")
+  strong
+    span(id="search-word")
+  span &nbsp;で検索した結果&nbsp;
+  span(id="search-hit-range-from")
+  span ~
+  span(id="search-hit-range-to")
+  span 件目&nbsp;/&nbsp;約
+  span(id="search-hit-num")
+  span 件の検索結果があります。
 
 div
-  ul(id="search-region") 
+  ul(id="search-region")
 
+div(id="bing-logo")
+  a(href="http://bing.com/", rel="nofollow")
+    img(src="/images/bing-logo.png", alt="bing-logo")
