@@ -8,6 +8,7 @@ var io = require('socket.io');
 var db = require('dirty')('log.db');
 var async = require('async');
 var http = require('http');
+
 var calc = require("./lib/calc"); // remove it later
 var bing = require("./lib/bing");
 var segmenter = require("./lib/segmenter");
@@ -38,9 +39,6 @@ app.configure('production', function(){
 // Routes
 // --
 app.get('/', function(req, res){
-            // console.log(req);
-            // console.log(req.url);
-            // res.render('index', {
             res.render('search', {
                            title: 'Newgle',
                            q: req.param("q")
@@ -60,7 +58,6 @@ app.get('/test2', function(req, res){
             res.send(segs.join(" | "));
         });
 app.get('/api', function(req, res){
-            // bing.search(req.param("q"), function(result) {
             bing.search(req, function(result) {
                             res.setHeader("Content-Type", "application/json; charset=utf-8");
                             res.send(result);
