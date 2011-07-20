@@ -1,14 +1,15 @@
-var socket = new io.Socket('localhost');
-var json = JSON.stringify;
-socket.connect();
-
-socket.on("message", function(message) {
-              console.log("data from server");
-              console.log(message);
-          });
+function refresh(page) {
+    location.hash = "#q=" + $("#q").val() + "&p=" + page;
+    search();
+}
 
 function search() {
-    $.getJSON("/api", {q: $("#q").val()}, function(json) {
+    var page = get_hash_params(location.hash).p ? get_hash_params(location.hash).p : 1;
+
+    $.getJSON("/api", {
+                  q: $("#q").val(),
+                  p: page
+              }, function(json) {
                   $("#search-summary").css("display","block");
                   $("#bing-logo").css("display","block");
                   $("#search-region").html("");
@@ -60,7 +61,17 @@ function search() {
                       $("#search-result-desc-" + i).text(json.SearchResponse.Web.Results[i].Description);
                   }
 
-                  location.hash = "#q=" + $("#q").val();
+                  var paging_html = "";
+                  if (1 < page) {
+                      paging_html += "<a onclick=\"refresh(" + (parseInt(page) - 1) + "); return false;\">&laquo; 前の検索結果を見る</a>";
+                  }
+                  if (json.SearchResponse.Web.Offset + json.SearchResponse.Web.Results.length < json.SearchResponse.Web.Total) {
+                      if ("" != paging_html) { paging_html += "&nbsp;|&nbsp;"; }
+                      paging_html += "<a onclick=\"refresh(" + (parseInt(page) + 1) + "); return false;\">もっと検索結果を見る&raquo;</a>";
+                  }
+                  $("#search-pager").html(paging_html);
+
+                  location.hash = "#q=" + $("#q").val() + "&p=" + page;
               });
 }
 

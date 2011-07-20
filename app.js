@@ -6,7 +6,6 @@
 var express = require('express');
 var io = require('socket.io');
 var db = require('dirty')('log.db');
-var async = require('async');
 var http = require('http');
 
 var calc = require("./lib/calc"); // remove it later
@@ -63,36 +62,9 @@ app.get('/api', function(req, res){
                             res.send(result);
                         });
         });
-// app.get('/permanent', function(req, res){
-//             // req.param("q")
-//             // req.param("page");
-//             // req.param("sources");
-//             console.log("q: query");
-//             console.log("page: page number");
-//             console.log("sources: kind of search (web, image, video and so on...)");
-
-//             // res.render('index', {
-//             res.render('search', {
-//                            title: "Newgle",
-//                            q: req.param("q")
-//                        });
-//         });
 
 if (!module.parent) {
     app.listen(3000);
     console.log("Express server listening on port %d", app.address().port);
 }
-
-var socket = io.listen(app);
-var count = 0;
-socket.on("connection", function(client) {
-              console.log("data come from client");
-
-              client.on("message", function(q) {
-                            console.log("client kara query ga kita.");
-                            console.log(q);
-                            // client.broadcast(q); // for other clients
-                            client.send(q); // for current client
-                        });
-          });
 

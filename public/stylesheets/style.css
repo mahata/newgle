@@ -59,6 +59,11 @@ div#search-summary {
     display: none;
 }
 
+div#search-pager {
+    width: 99%;
+    text-align: center;
+}
+
 div#bing-logo {
     display: none;
 }
