@@ -6,6 +6,7 @@
 var express = require('express');
 var io = require('socket.io');
 var db = require('dirty')('log.db');
+var fs = require("fs");
 var http = require('http');
 
 var calc = require("./lib/calc"); // remove it later
@@ -38,9 +39,11 @@ app.configure('production', function(){
 // Routes
 // --
 app.get('/', function(req, res){
+            var conf = JSON.parse(fs.readFileSync("conf/conf.json", "utf-8"));
             res.render('search', {
                            title: 'Newgle',
-                           q: req.param("q")
+                           q: req.param("q"),
+                           conf: conf
                        });
         });
 app.get('/test', function(req, res){
