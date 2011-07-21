@@ -63,11 +63,11 @@ function search() {
 
                   var paging_html = "";
                   if (1 < page) {
-                      paging_html += "<a onclick=\"refresh(" + (parseInt(page) - 1) + "); return false;\">&laquo; 前の検索結果を見る</a>";
+                      paging_html += "<a href=\"javascript:void(0);\" onclick=\"refresh(" + (parseInt(page) - 1) + "); return false;\">&laquo; 前の検索結果を見る</a>";
                   }
                   if (json.SearchResponse.Web.Offset + json.SearchResponse.Web.Results.length < json.SearchResponse.Web.Total) {
                       if ("" != paging_html) { paging_html += "&nbsp;|&nbsp;"; }
-                      paging_html += "<a onclick=\"refresh(" + (parseInt(page) + 1) + "); return false;\">もっと検索結果を見る&raquo;</a>";
+                      paging_html += "<a href=\"javascript:void(0);\" onclick=\"refresh(" + (parseInt(page) + 1) + "); return false;\">もっと検索結果を見る&raquo;</a>";
                   }
                   $("#search-pager").html(paging_html);
 
@@ -91,7 +91,7 @@ function get_hash_params(loc_hash) {
 
 window.onload = function() {
     var hash_params = get_hash_params(location.hash);
-    if ("" != hash_params.q) {
+    if (hash_params.q && "" != hash_params.q) {
         $("#q").val(hash_params.q);
         search();
     }
