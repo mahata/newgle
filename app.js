@@ -9,9 +9,9 @@ var db = require('dirty')('log.db');
 var fs = require("fs");
 var http = require('http');
 
-var calc = require("./lib/calc"); // remove it later
-var bing = require("./lib/bing");
-var segmenter = require("./lib/segmenter");
+var calc = require(__dirname + "/lib/calc"); // remove it later
+var bing = require(__dirname + "/lib/bing");
+var segmenter = require(__dirname + "/lib/segmenter");
 
 var app = module.exports = express.createServer();
 
@@ -39,7 +39,7 @@ app.configure('production', function(){
 // Routes
 // --
 app.get('/', function(req, res){
-            var conf = JSON.parse(fs.readFileSync("conf/conf.json", "utf-8"));
+            var conf = JSON.parse(fs.readFileSync(__dirname + "/conf/conf.json", "utf-8"));
             res.render('search', {
                            title: 'Newgle',
                            q: req.param("q"),
@@ -60,7 +60,11 @@ app.get('/test2', function(req, res){
             res.send(segs.join(" | "));
         });
 app.get('/api', function(req, res){
-            bing.search(req, function(result) {
+            var params = {
+                q: req.param("q"),
+                p: req.param("p") ? req.param("p") : 1
+            };
+            bing.search(params, function(err, result) {
                             res.setHeader("Content-Type", "application/json; charset=utf-8");
                             res.send(result);
                         });
