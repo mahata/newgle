@@ -1,11 +1,15 @@
 function refresh(page) {
     location.hash = "#q=" + $("#q").val() + "&p=" + page;
+    // $('html,body').animate({ scrollTop: 0 }, "slow");
+    $('html,body').scrollTop(0);
+
     search();
 }
 
 function search() {
     var page = get_hash_params(location.hash).p ? get_hash_params(location.hash).p : 1;
 
+    $("#search-region").css("opacity", "0.3");
     $.getJSON("/api", {
                   q: $("#q").val(),
                   p: page
@@ -72,6 +76,7 @@ function search() {
                   $("#search-pager").html(paging_html);
 
                   location.hash = "#q=" + $("#q").val() + "&p=" + page;
+                  $("#search-region").css("opacity", "1.0");
               });
 }
 
