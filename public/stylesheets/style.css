@@ -25,7 +25,19 @@ h2.search-result-title {
 }
 
 div.search-result {
+    width: 99%;
+    // margin-left:auto;
+    // margin-right:auto;
     padding-bottom: 10px;
+}
+
+div.search-result-left {
+    width: 140px;
+    float: left;
+}
+
+div.search-result-right {
+    margin-left: 140px;
 }
 
 div.search-result-subtle-info {

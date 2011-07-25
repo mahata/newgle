@@ -1,6 +1,5 @@
 function refresh(page) {
     location.hash = "#q=" + $("#q").val() + "&p=" + page;
-    // $('html,body').animate({ scrollTop: 0 }, "slow");
     $('html,body').scrollTop(0);
 
     search();
@@ -29,8 +28,8 @@ function search() {
                   for (var i = 0; i < json.SearchResponse.Web.Results.length; i++) {
                       var deep_link = "";
                       if (json.SearchResponse.Web.Results[i].DeepLinks) {
-                          var repeat_num = (json.SearchResponse.Web.Results[i].DeepLinks.length <= 3) ?
-                              json.SearchResponse.Web.Results[i].DeepLinks.length : 3;
+                          var repeat_num = (json.SearchResponse.Web.Results[i].DeepLinks.length <= 5) ?
+                              json.SearchResponse.Web.Results[i].DeepLinks.length : 5;
                           var link_list = [];
                           for (var j = 0; j < repeat_num; j++) {
                               link_list.push("<a href=\"" + json.SearchResponse.Web.Results[i].DeepLinks[j].Url + "\">" +
@@ -40,11 +39,14 @@ function search() {
                       }
                       $("#search-region").append("<li>" +
                                                  "<div class=\"search-result\">" +
+                                                 "<div class=\"search-result-left\">" +
                                                  "<a href=\"" + json.SearchResponse.Web.Results[i].Url + "\">" +
                                                  "<img src=\"http://img.simpleapi.net/small/" +
                                                  json.SearchResponse.Web.Results[i].Url +
-                                                 " alt=\"img\" style=\"float: left; padding-right: 10px;\" />" +
+                                                 " alt=\"img\" />" +
                                                  "</a>" +
+                                                 "</div>" +
+                                                 "<div class=\"search-result-right\">" +
                                                  "<h2 class=\"search-result-title\">" +
                                                  "<a href=\"" + json.SearchResponse.Web.Results[i].Url + "\">" +
                                                  "<span id=\"search-result-title-" + i + "\"></span>" +
@@ -61,6 +63,7 @@ function search() {
                                                  "<a class=\"search-result-cache\" href=\"" + json.SearchResponse.Web.Results[i].CacheUrl + "\">キャッシュ</a>" +
                                                  deep_link +
                                                  "<p style=\"clear: both;\"></p>" +
+                                                 "</div>" +
                                                  "</div>" +
                                                  "</div>" +
                                                  "</li>");
