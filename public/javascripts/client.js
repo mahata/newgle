@@ -29,20 +29,22 @@ function search() {
                   for (var i = 0; i < json.SearchResponse.Web.Results.length; i++) {
                       var deep_link = "";
                       if (json.SearchResponse.Web.Results[i].DeepLinks) {
-                          deep_link += "<div><ul class=\"search-result-deep-link\">";
-                          var repeat_num = (json.SearchResponse.Web.Results[i].DeepLinks.length <= 5) ?
-                              json.SearchResponse.Web.Results[i].DeepLinks.length : 5;
+                          var repeat_num = (json.SearchResponse.Web.Results[i].DeepLinks.length <= 3) ?
+                              json.SearchResponse.Web.Results[i].DeepLinks.length : 3;
+                          var link_list = [];
                           for (var j = 0; j < repeat_num; j++) {
-                              deep_link += "<li><a href=\"" + json.SearchResponse.Web.Results[i].DeepLinks[j].Url + "\">" +
-                                  "<span id=\"search-result-deep-link-" + i + "-" + j + "\">" +
-                                  json.SearchResponse.Web.Results[i].DeepLinks[j].Title +
-                                  "</span>" +
-                                  "</a></li>";
+                              link_list.push("<a href=\"" + json.SearchResponse.Web.Results[i].DeepLinks[j].Url + "\">" +
+                                             json.SearchResponse.Web.Results[i].DeepLinks[j].Title + "</a>");
                           }
-                          deep_link += "</ul></div>";
+                          deep_link = "<div class=\"search-result-deep-link\"><strong>もっと見る:</strong> " + link_list.join(" - ") + "</div>";
                       }
                       $("#search-region").append("<li>" +
                                                  "<div class=\"search-result\">" +
+                                                 "<a href=\"" + json.SearchResponse.Web.Results[i].Url + "\">" +
+                                                 "<img src=\"http://img.simpleapi.net/small/" +
+                                                 json.SearchResponse.Web.Results[i].Url +
+                                                 " alt=\"img\" style=\"float: left; padding-right: 10px;\" />" +
+                                                 "</a>" +
                                                  "<h2 class=\"search-result-title\">" +
                                                  "<a href=\"" + json.SearchResponse.Web.Results[i].Url + "\">" +
                                                  "<span id=\"search-result-title-" + i + "\"></span>" +
@@ -58,6 +60,7 @@ function search() {
                                                  " - " +
                                                  "<a class=\"search-result-cache\" href=\"" + json.SearchResponse.Web.Results[i].CacheUrl + "\">キャッシュ</a>" +
                                                  deep_link +
+                                                 "<p style=\"clear: both;\"></p>" +
                                                  "</div>" +
                                                  "</div>" +
                                                  "</li>");
