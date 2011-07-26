@@ -100,11 +100,19 @@ function get_hash_params(loc_hash) {
     return url_params;
 }
 
-window.onload = function() {
-    var hash_params = get_hash_params(location.hash);
-    if (hash_params.q && "" != hash_params.q) {
-        $("#q").val(hash_params.q);
-        search();
-    }
-}
+$(function(){
+      // for paging like: search result => search page using BACK button of browsers
+      var hash_params = get_hash_params(location.hash);
+      if (hash_params.q && "" != hash_params.q) {
+          $("#q").val(hash_params.q);
+          search();
+      }
+
+      // for paging like: page2 => page1 using BACK button of browsers
+      $(window).bind("hashchange", function() {
+                         $('html,body').scrollTop(0);
+                         search();
+                     });
+
+});
 
