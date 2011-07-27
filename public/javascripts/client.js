@@ -16,7 +16,7 @@ function search() {
                   $("#search-summary").css("display","block");
                   $("#bing-logo").css("display","block");
                   $("#search-region").html("");
-;
+
                   $("#search-word").text($("#q").val());
                   $("#search-hit-range-from").text(json.SearchResponse.Web.Offset + 1);
                   $("#search-hit-range-to").text(json.SearchResponse.Web.Offset +
@@ -33,7 +33,7 @@ function search() {
                           var link_list = [];
                           for (var j = 0; j < repeat_num; j++) {
                               link_list.push("<a href=\"" + json.SearchResponse.Web.Results[i].DeepLinks[j].Url + "\">" +
-                                             json.SearchResponse.Web.Results[i].DeepLinks[j].Title + "</a>");
+                                             emphasize_keyword(json.SearchResponse.Web.Results[i].DeepLinks[j].Title, $("#q").val()) + "</a>");
                           }
                           deep_link = "<div class=\"search-result-deep-link\"><strong>もっと見る:</strong> " + link_list.join(" - ") + "</div>";
                       }
@@ -57,7 +57,7 @@ function search() {
                                                  "</p>" +
                                                  "<div class=\"search-result-subtle-info\">" +
                                                  "<span class=\"search-result-disp-url\">" +
-                                                 json.SearchResponse.Web.Results[i].DisplayUrl +
+                                                 emphasize_keyword(json.SearchResponse.Web.Results[i].DisplayUrl, $("#q").val()) +
                                                  "</span>" +
                                                  " - " +
                                                  "<a class=\"search-result-cache\" href=\"" + json.SearchResponse.Web.Results[i].CacheUrl + "\">キャッシュ</a>" +
@@ -69,6 +69,7 @@ function search() {
                                                  "</li>");
                       $("#search-result-title-" + i).text(json.SearchResponse.Web.Results[i].Title);
                       $("#search-result-desc-" + i).text(json.SearchResponse.Web.Results[i].Description);
+                      $("#search-result-desc-" + i).html(emphasize_keyword($("#search-result-desc-" + i).html(), $("#q").val()));
                   }
 
                   var paging_html = "";
@@ -98,6 +99,18 @@ function get_hash_params(loc_hash) {
         url_params[d(e[1])] = d(e[2]);
 
     return url_params;
+}
+
+// emphasize keyword from a text
+function emphasize_keyword(text, keyword) {
+    var keyword_list = keyword.replace(/[　\s]+/, " ").split(" ");
+
+    for (var i = 0; i < keyword_list.length; i++) {
+        var reg = new RegExp("(" + keyword_list[i] + ")", "gi");
+        text = text.replace(reg, "<strong>$1</strong>");
+    }
+
+    return text;
 }
 
 $(function(){

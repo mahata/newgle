@@ -8,7 +8,6 @@ img {
 }
 
 a {
-    // color: #00b7ff;
 }
 
 a:visited {
@@ -24,14 +23,12 @@ a.search-result-cache {
 }
 
 h2.search-result-title {
-    font-size: 1.4em;
+    font-size: 1.2em;
     margin: 0px;
 }
 
 div.search-result {
     width: 99%;
-    // margin-left:auto;
-    // margin-right:auto;
     padding-bottom: 10px;
 }
 
@@ -49,7 +46,7 @@ div.search-result-subtle-info {
 }
 
 p.search-result-desc {
-    margin: 0px;
+    margin: 2px 0px 0px 0px;
 }
 
 span.search-result-disp-url {
@@ -57,11 +54,8 @@ span.search-result-disp-url {
 }
 
 ul.search-result-deep-link {
+    margin-top: 2px;
     font-size: small;
-}
-
-hr#separator {
-    // border: 1px dashed #000000;
 }
 
 div#search-summary {
