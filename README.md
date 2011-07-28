@@ -11,4 +11,7 @@ You can install Node Search by following two steps as follows:
 
 **conf/conf.json** has a template named **template_conf.json**.  You have to rename **template_conf.json** to **conf/conf.json** and modify appid section.
 
+You can test this software using [Vows](http://vowsjs.org/):
+
+  - $ vows t/*.js --spec
 

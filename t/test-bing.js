@@ -1,7 +1,7 @@
 var vows = require("vows");
 var assert = require("assert");
 
-console.log("Test Start.");
+console.log("Bing Test Start.");
 
 vows.describe("Search Library").addBatch({"Bing Search": {
                                                  topic: require(__dirname + "/../lib/bing"),

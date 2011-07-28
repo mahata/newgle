@@ -127,5 +127,7 @@ $(function(){
                          search();
                      });
 
+      // experimental
+      // $("#q").bind("keydown", function() { search(); });
 });
 
