@@ -8,8 +8,6 @@ function refresh(page) {
 function search() {
     var page = get_hash_params(location.hash).p ? get_hash_params(location.hash).p : 1;
 
-    $("#google-link").text("Googleで「" + $("#q").val() + "」");
-    $("#google-link").attr("href", "http://www.google.co.jp/search?q=" + encodeURIComponent($("#q").val()));
     $("#search-region").css("opacity", "0.3");
     $.getJSON("/api", {
                   q: $("#q").val(),
