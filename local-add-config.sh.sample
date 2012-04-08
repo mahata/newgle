@@ -1,5 +1,7 @@
 #!/bin/sh
 
+export NODE_ENV="development"
+
 export BING_SEARCH_HOST="api.search.live.net"
 export BING_SEARCH_PATH="/json.aspx"
-export BING_SEARCH_APP_ID="42F6CB120F1780933C4D89224F6C77D36C5836D1"
+export BING_SEARCH_APP_ID=""

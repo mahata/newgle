@@ -6,9 +6,13 @@ import os
 heroku = "/usr/bin/heroku"
 app = "newgle"
 
+node_env = "production"
+
 bing_search_host = "api.search.live.net"
 bing_search_path = "/json.aspx"
 bing_search_app_id = ""
+
+os.system('%s config:add --app %s NODE_ENV=%s' % (heroku, app, node_env))
 
 os.system('%s config:add --app %s BING_SEARCH_HOST=%s'     % (heroku, app, bing_search_host))
 os.system('%s config:add --app %s BING_SEARCH_PATH="%s"'   % (heroku, app, bing_search_path))
