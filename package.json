@@ -4,6 +4,8 @@
   , "private": true
   , "dependencies": {
       "express": "2.3.11"
-    , "jade": ">= 0.0.1"
+    , "jade": "0.12.4"
+    , "async": "0.1.9"
+    , "xmlhttprequest": "1.0.0"
   }
 }
