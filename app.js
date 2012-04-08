@@ -68,7 +68,7 @@ app.get('/api', function(req, res){
 });
 
 if (!module.parent) {
-    app.listen(3000);
+    app.listen(51269);
     console.log("Express server listening on port %d", app.address().port);
 }
 
