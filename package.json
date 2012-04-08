@@ -8,5 +8,6 @@
     , "async": "0.1.9"
     , "xmlhttprequest": "1.0.0"
     , "dirty": "0.9.6"
+    , "socket.io": "0.7.7"
   }
 }
