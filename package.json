@@ -7,5 +7,6 @@
     , "jade": "0.12.4"
     , "async": "0.1.9"
     , "xmlhttprequest": "1.0.0"
+    , "dirty": "0.9.6"
   }
 }
