@@ -10,14 +10,13 @@ var http = require('http');
 
 var calc = require(__dirname + "/lib/calc"); // remove it later
 var bing = require(__dirname + "/lib/bing");
+var yahoo = require(__dirname + "/lib/yahoo");
 var segmenter = require(__dirname + "/lib/segmenter");
 
 var app = module.exports = express.createServer();
 
-// --
 // Configuration
-// --
-app.configure(function(){
+app.configure(function() {
     app.set('views', __dirname + '/views');
     app.set('view engine', 'jade');
     app.use(express.bodyParser());
@@ -25,25 +24,23 @@ app.configure(function(){
     app.use(app.router);
     app.use(express.static(__dirname + '/public'));
 });
-app.configure('development', function(){
+app.configure('development', function() {
     express.logger('development mode');
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
-app.configure('production', function(){
+app.configure('production', function() {
     express.logger('production mode');
     app.use(express.errorHandler());
 });
 
-// --
 // Routes
-// --
-app.get('/', function(req, res){
+app.get('/', function(req, res) {
     res.render('search', {
         title: 'Newgle',
         q: req.param("q")
     });
 });
-app.get('/test', function(req, res){
+app.get('/test', function(req, res) {
     console.log("add: " + calc.add(10, 2));
     console.log("sub: " + calc.sub(10, 2));
     console.log("mul: " + calc.mul(10, 2));
@@ -51,17 +48,22 @@ app.get('/test', function(req, res){
 
     res.send("Hi!");
 });
-app.get('/test2', function(req, res){
+app.get('/test2', function(req, res) {
     var _segmenter = new segmenter.TinySegmenter();
     var segs = _segmenter.segment("私の名前は中野です");
     res.send(segs.join(" | "));
 });
-app.get('/api', function(req, res){
+app.get('/test3', function(req, res) {
+    res.setHeader("Content-Type", "application/json; charset=utf-8");
+    res.send(fs.readFileSync("sample.json", "utf-8"));
+});
+app.get('/api', function(req, res) {
     var params = {
         q: req.param("q"),
         p: req.param("p") ? req.param("p") : 1
     };
-    bing.search(params, function(err, result) {
+    // bing.search(params, function(err, result) {
+    yahoo.search(params, function(err, result) {
         res.setHeader("Content-Type", "application/json; charset=utf-8");
         res.send(result);
     });
