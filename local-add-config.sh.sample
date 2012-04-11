@@ -5,3 +5,7 @@ export NODE_ENV="development"
 export BING_SEARCH_HOST="api.search.live.net"
 export BING_SEARCH_PATH="/json.aspx"
 export BING_SEARCH_APP_ID=""
+
+export YAHOO_SEARCH_HOST="search.yahooapis.jp"
+export YAHOO_SEARCH_PATH="/PremiumWebSearchService/V1/webSearch"
+export YAHOO_SEARCH_APP_ID=""
