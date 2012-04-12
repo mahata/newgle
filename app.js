@@ -54,6 +54,19 @@ app.get('/test2', function(req, res) {
     var segs = _segmenter.segment("私の名前は中野です");
     res.send(segs.join(" | "));
 });
+app.get('/login', function(req, res) {
+    res.render('login', {
+        title: 'Newgle - login'
+    });
+});
+app.get('/signup', function(req, res) {
+    res.render('signup', {
+        title: 'Newgle - signup'
+    });
+});
+app.post('/signup', function(req, res) {
+    res.send('signup process should run here.');
+});
 app.get('/api', function(req, res) {
     var params = {
         q: req.param("q"),
