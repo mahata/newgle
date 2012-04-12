@@ -12,6 +12,7 @@ var calc = require(__dirname + "/lib/calc"); // remove it later
 var bing = require(__dirname + "/lib/bing");
 var yahoo = require(__dirname + "/lib/yahoo");
 var segmenter = require(__dirname + "/lib/segmenter");
+var util = require(__dirname + "/lib/util");
 
 var app = module.exports = express.createServer();
 
@@ -53,10 +54,6 @@ app.get('/test2', function(req, res) {
     var segs = _segmenter.segment("私の名前は中野です");
     res.send(segs.join(" | "));
 });
-app.get('/test3', function(req, res) {
-    res.setHeader("Content-Type", "application/json; charset=utf-8");
-    res.send(fs.readFileSync("sample.json", "utf-8"));
-});
 app.get('/api', function(req, res) {
     var params = {
         q: req.param("q"),
@@ -65,7 +62,7 @@ app.get('/api', function(req, res) {
     // bing.search(params, function(err, result) {
     yahoo.search(params, function(err, result) {
         res.setHeader("Content-Type", "application/json; charset=utf-8");
-        res.send(result);
+        res.send(util.htmlspecialchars_decode(result));
     });
 });
 
