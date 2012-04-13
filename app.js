@@ -36,9 +36,13 @@ app.configure('production', function() {
 
 // Routes
 app.get('/', function(req, res) {
+    if (undefined !== req.param('q')) {
+        res.redirect('/#q=' + req.param('q'));
+    }
+
     res.render('search', {
         title: 'Newgle',
-        q: req.param("q")
+        // q: req.param('q')
     });
 });
 app.get('/test', function(req, res) {
