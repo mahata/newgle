@@ -2,22 +2,21 @@
  * Module dependencies.
  */
 
-var express = require('express');
-var io = require('socket.io');
-var db = require('dirty')('log.db');
-var fs = require('fs');
-var pg = require('pg');
-var http = require('http');
-var crypto = require('crypto');
+var express = require('express'),
+    io = require('socket.io'),
+    db = require('dirty')('log.db'),
+    fs = require('fs'),
+    pg = require('pg'),
+    http = require('http'),
+    crypto = require('crypto'),
 
-var calc = require(__dirname + "/lib/calc"); // remove it later
-var bing = require(__dirname + "/lib/bing");
-var yahoo = require(__dirname + "/lib/yahoo");
-var segmenter = require(__dirname + "/lib/segmenter");
-var util = require(__dirname + "/lib/util");
+    bing = require(__dirname + "/lib/bing"),
+    yahoo = require(__dirname + "/lib/yahoo"),
+    segmenter = require(__dirname + "/lib/segmenter"),
+    util = require(__dirname + "/lib/util"),
 
-var conString = 'postgres://' + process.env.PGSQL_USER + ':' + process.env.PGSQL_PASS + '@' + process.env.PGSQL_HOST + '/' + process.env.PGSQL_DB;
-var app = module.exports = express.createServer();
+    conString = 'postgres://' + process.env.PGSQL_USER + ':' + process.env.PGSQL_PASS + '@' + process.env.PGSQL_HOST + '/' + process.env.PGSQL_DB,
+    app = module.exports = express.createServer();
 
 // Configuration
 app.configure(function() {
@@ -48,14 +47,6 @@ app.get('/', function(req, res) {
     });
 });
 app.get('/test', function(req, res) {
-    console.log("add: " + calc.add(10, 2));
-    console.log("sub: " + calc.sub(10, 2));
-    console.log("mul: " + calc.mul(10, 2));
-    console.log("div: " + calc.div(10, 2));
-
-    res.send("Hi!");
-});
-app.get('/test2', function(req, res) {
     var _segmenter = new segmenter.TinySegmenter();
     var segs = _segmenter.segment("私の名前は中野です");
     res.send(segs.join(" | "));
