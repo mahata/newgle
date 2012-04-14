@@ -13,6 +13,8 @@ function search() {
                   q: $("#q").val(),
                   p: page
               }, function(json) {
+                  document.title = 'Newgle - ' + $('#q').val();
+
                   $("#search-summary").css("display","block");
                   $("#bing-logo").css("display","block");
                   $("#search-region").html("");
