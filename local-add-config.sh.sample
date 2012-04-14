@@ -9,3 +9,11 @@ export BING_SEARCH_APP_ID=""
 export YAHOO_SEARCH_HOST="search.yahooapis.jp"
 export YAHOO_SEARCH_PATH="/PremiumWebSearchService/V1/webSearch"
 export YAHOO_SEARCH_APP_ID=""
+
+export PGSQL_DB="newgle"
+export PGSQL_USER="mahata"
+export PGSQL_PASS=""
+export PGSQL_HOST="localhost"
+export PGSQL_PORT="5432"
+
+export STRETCH_TIMES="10000"

@@ -1,0 +1,12 @@
+h2 ユーザ登録
+
+p
+  - if (err)
+    p error :-(
+    p #{err.code}, #{err.message}
+  - else
+    p no error :-)
+    p
+      strong #{name}
+      | &nbsp;is in the DB now.
+

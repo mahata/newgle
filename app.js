@@ -8,6 +8,7 @@ var db = require('dirty')('log.db');
 var fs = require('fs');
 var pg = require('pg');
 var http = require('http');
+var crypto = require('crypto');
 
 var calc = require(__dirname + "/lib/calc"); // remove it later
 var bing = require(__dirname + "/lib/bing");
@@ -44,7 +45,6 @@ app.get('/', function(req, res) {
 
     res.render('search', {
         title: 'Newgle',
-        // q: req.param('q')
     });
 });
 app.get('/test', function(req, res) {
@@ -72,11 +72,22 @@ app.get('/signup', function(req, res) {
 });
 app.post('/signup', function(req, res) {
     pg.connect(conString, function(err, client) {
-        client.query('INSERT INTO users (name, pass) VALUES ($1, $2)',
-                     [req.param('name'), req.param('pass')],
-                     function(err, result) {
-                         // err.code, err.message
-                     });
+        if (null !== client) {
+            client.query('INSERT INTO users (name, pass) VALUES ($1, $2)',
+                         [req.param('name'), util.getStretchedPassword(req.param('pass'),
+                                                                       req.param('name'),
+                                                                       process.env.STRETCH_TIMES)],
+                         function(err, result) {
+                             res.render('signup-done', {
+                                 title: 'Newgle - signup done',
+                                 name: req.param('name'),
+                                 result: result,
+                                 err: err
+                             });
+                         });
+        } else {
+            res.send('Something went wrong...');
+        }
     });
 });
 app.get('/api', function(req, res) {
