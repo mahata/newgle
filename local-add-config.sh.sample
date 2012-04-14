@@ -16,4 +16,5 @@ export PGSQL_PASS=""
 export PGSQL_HOST="localhost"
 export PGSQL_PORT="5432"
 
+export SECRET_KEY="development key"
 export STRETCH_TIMES="10000"

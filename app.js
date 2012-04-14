@@ -24,6 +24,8 @@ app.configure(function() {
     app.set('view engine', 'jade');
     app.use(express.bodyParser());
     app.use(express.methodOverride());
+    app.use(express.cookieParser());
+    app.use(express.session({secret: 'aa'}));
     app.use(app.router);
     app.use(express.static(__dirname + '/public'));
 });
@@ -56,6 +58,31 @@ app.get('/login', function(req, res) {
         title: 'Newgle - login'
     });
 });
+app.post('/login', function(req, res) {
+    pg.connect(conString, function(err, client) {
+        if (null !== client) {
+            client.query('SELECT name FROM users WHERE name = $1 AND pass = $2',
+                         [req.param('name'), util.getStretchedPassword(req.param('pass'),
+                                                                       req.param('name'),
+                                                                       process.env.STRETCH_TIMES)],
+                         function(err, result) {
+                             if (null !== err && req.param('name') === result.rows[0].name) {
+                                 req.session.user = req.param('name');
+                             }
+                             console.log(err);
+                             console.log(result);
+                             res.render('login-done', {
+                                 title: 'Newgle - login done',
+                                 name: req.param('name'),
+                                 result: result,
+                                 err: err
+                             });
+                         });
+        } else {
+            res.send('Something went wrong...');
+        }
+    });
+});
 app.get('/signup', function(req, res) {
     res.render('signup', {
         title: 'Newgle - signup'
@@ -69,6 +96,7 @@ app.post('/signup', function(req, res) {
                                                                        req.param('name'),
                                                                        process.env.STRETCH_TIMES)],
                          function(err, result) {
+                             if (null === err) { req.session.user = req.param('name'); }
                              res.render('signup-done', {
                                  title: 'Newgle - signup done',
                                  name: req.param('name'),
@@ -80,6 +108,10 @@ app.post('/signup', function(req, res) {
             res.send('Something went wrong...');
         }
     });
+});
+app.post('/logout', function(req, res) {
+    delete req.session.user;
+    res.send('Logout finished.');
 });
 app.get('/api', function(req, res) {
     var params = {

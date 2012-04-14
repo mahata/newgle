@@ -1,0 +1,12 @@
+h2 ログイン
+
+p
+  - if (err || 0 == result.rowCount)
+    p ログインに失敗しました。
+  - else
+    p ログインに成功しました!
+    p
+      | こんにちは、
+      strong #{name}
+      | &nbsp;さん。
+
