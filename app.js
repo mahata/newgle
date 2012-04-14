@@ -5,7 +5,8 @@
 var express = require('express');
 var io = require('socket.io');
 var db = require('dirty')('log.db');
-var fs = require("fs");
+var fs = require('fs');
+var pg = require('pg');
 var http = require('http');
 
 var calc = require(__dirname + "/lib/calc"); // remove it later
@@ -14,6 +15,7 @@ var yahoo = require(__dirname + "/lib/yahoo");
 var segmenter = require(__dirname + "/lib/segmenter");
 var util = require(__dirname + "/lib/util");
 
+var conString = 'postgres://' + process.env.PGSQL_USER + ':' + process.env.PGSQL_PASS + '@' + process.env.PGSQL_HOST + '/' + process.env.PGSQL_DB;
 var app = module.exports = express.createServer();
 
 // Configuration
@@ -65,7 +67,13 @@ app.get('/signup', function(req, res) {
     });
 });
 app.post('/signup', function(req, res) {
-    res.send('signup process should run here.');
+    pg.connect(conString, function(err, client) {
+        client.query('INSERT INTO users (name, pass) VALUES ($1, $2)',
+                     [req.param('name'), req.param('pass')],
+                     function(err, result) {
+                         // err.code, err.message
+                     });
+    });
 });
 app.get('/api', function(req, res) {
     var params = {
