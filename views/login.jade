@@ -1,6 +1,14 @@
+table
+  tbody
+    tr
+      td
+        a(href="/")
+          img(src="/images/newgle-small.png", alt="logo")
+
 h2 ログイン
 
 div(id="signup")
+  // p!= partial('includes/foo.jade')
   form(method="POST")
     table
       tbody
@@ -16,4 +24,4 @@ div(id="signup")
             input(name="pass", type="password")
         tr
           td(cols="2")
-            input(type="submit", value="登録")
+            input(type="submit", value="ログイン")

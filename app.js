@@ -91,10 +91,13 @@ app.get('/signup', function(req, res) {
 app.post('/signup', function(req, res) {
     pg.connect(conString, function(err, client) {
         if (null !== client) {
-            client.query('INSERT INTO users (name, pass) VALUES ($1, $2)',
-                         [req.param('name'), util.getStretchedPassword(req.param('pass'),
-                                                                       req.param('name'),
-                                                                       process.env.STRETCH_TIMES)],
+            client.query('INSERT INTO users (name, pass, created_at) VALUES ($1, $2, $3)',
+                         [req.param('name'),
+                          util.getStretchedPassword(req.param('pass'),
+                                                    req.param('name'),
+                                                    process.env.STRETCH_TIMES),
+                          parseInt((new Date)/1e3)
+                         ],
                          function(err, result) {
                              if (null === err) { req.session.user = req.param('name'); }
                              res.render('signup-done', {
