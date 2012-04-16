@@ -14,6 +14,7 @@ var express = require('express'),
     yahoo = require(__dirname + "/lib/yahoo"),
     segmenter = require(__dirname + "/lib/segmenter"),
     util = require(__dirname + "/lib/util"),
+    router = require(__dirname + "/lib/router"),
 
     conString = 'postgres://' + process.env.PGSQL_USER + ':' + process.env.PGSQL_PASS + '@' + process.env.PGSQL_HOST + '/' + process.env.PGSQL_DB,
     app = module.exports = express.createServer();
@@ -49,7 +50,8 @@ app.get('/', function(req, res) {
         name: req.session.name
     });
 });
-app.get('/test', function(req, res) {
+app.get('/test', router.domainCheck, function(req, res) {
+    console.log(router.domainCheck);
     var _segmenter = new segmenter.TinySegmenter();
     var segs = _segmenter.segment("私の名前は中野です");
     res.send(segs.join(" | "));
