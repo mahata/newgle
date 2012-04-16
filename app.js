@@ -9,6 +9,7 @@ var express = require('express'),
     pg = require('pg'),
     http = require('http'),
     crypto = require('crypto'),
+    scheme = require('biwascheme'),
 
     bing = require(__dirname + "/lib/bing"),
     yahoo = require(__dirname + "/lib/yahoo"),
@@ -51,7 +52,7 @@ app.get('/', function(req, res) {
     });
 });
 app.get('/test', router.domainCheck, function(req, res) {
-    console.log(router.domainCheck);
+    // console.log(scheme.run('(+ 1 2)'));
     var _segmenter = new segmenter.TinySegmenter();
     var segs = _segmenter.segment("私の名前は中野です");
     res.send(segs.join(" | "));
