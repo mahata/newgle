@@ -46,12 +46,54 @@ app.get('/', function(req, res) {
 
     res.render('search', {
         title: 'Newgle',
+        name: req.session.name
     });
 });
 app.get('/test', function(req, res) {
     var _segmenter = new segmenter.TinySegmenter();
     var segs = _segmenter.segment("私の名前は中野です");
     res.send(segs.join(" | "));
+});
+app.get('/config', function(req, res) {
+    if (undefined !== req.session.name) {
+        pg.connect(conString, function(err, client) {
+            if (null !== client) {
+                client.query('SELECT search_engine FROM conf WHERE member_id = (SELECT id FROM member WHERE name = $1)',
+                             [req.session.name],
+                             function(err, result) {
+                                 res.render('config', {
+                                     title: 'Newgle - config',
+                                     search_engine: result.rows[0].search_engine
+                                 });
+                             });
+            } else {
+                res.send('It seems connecting to the PostgreSQL failed.');
+            }
+        });
+    } else {
+        res.send('You must be logged in to set config.');
+    }
+});
+app.post('/config', function(req, res) {
+    if (undefined !== req.session.name) {
+        pg.connect(conString, function(err, client) {
+            if (null !== client) {
+                client.query('SELECT set_config($1, $2)', // INSERT-UPDATE
+                             [req.session.name, req.param('search-engine')],
+                             function(err, result) {
+                                 res.render('config-done', {
+                                     title: 'Newgle - config done',
+                                     result: result,
+                                     err: err
+                                 });
+                             });
+            } else {
+                res.send('It seems connecting to the PostgreSQL failed.');
+            }
+        });
+    } else {
+        res.send('You must be logged in to set config.');
+    }
 });
 app.get('/login', function(req, res) {
     res.render('login', {
@@ -61,25 +103,23 @@ app.get('/login', function(req, res) {
 app.post('/login', function(req, res) {
     pg.connect(conString, function(err, client) {
         if (null !== client) {
-            client.query('SELECT name FROM users WHERE name = $1 AND pass = $2',
+            client.query('SELECT name FROM member WHERE name = $1 AND pass = $2',
                          [req.param('name'), util.getStretchedPassword(req.param('pass'),
                                                                        req.param('name'),
                                                                        process.env.STRETCH_TIMES)],
                          function(err, result) {
-                             if (null !== err && req.param('name') === result.rows[0].name) {
-                                 req.session.user = req.param('name');
+                             if (null === err && req.param('name') === result.rows[0].name) {
+                                 req.session.name = req.param('name');
                              }
-                             console.log(err);
-                             console.log(result);
                              res.render('login-done', {
                                  title: 'Newgle - login done',
-                                 name: req.param('name'),
+                                 name: req.session.name,
                                  result: result,
                                  err: err
                              });
                          });
         } else {
-            res.send('Something went wrong...');
+            res.send('It seems connecting to the PostgreSQL failed.');
         }
     });
 });
@@ -91,15 +131,14 @@ app.get('/signup', function(req, res) {
 app.post('/signup', function(req, res) {
     pg.connect(conString, function(err, client) {
         if (null !== client) {
-            client.query('INSERT INTO users (name, pass, created_at) VALUES ($1, $2, $3)',
+            client.query('INSERT INTO member (name, pass, created_at) VALUES ($1, $2, $3)',
                          [req.param('name'),
                           util.getStretchedPassword(req.param('pass'),
                                                     req.param('name'),
                                                     process.env.STRETCH_TIMES),
-                          parseInt((new Date)/1e3)
-                         ],
+                          parseInt((new Date)/1e3)],
                          function(err, result) {
-                             if (null === err) { req.session.user = req.param('name'); }
+                             if (null === err) { req.session.name = req.param('name'); }
                              res.render('signup-done', {
                                  title: 'Newgle - signup done',
                                  name: req.param('name'),
@@ -108,12 +147,12 @@ app.post('/signup', function(req, res) {
                              });
                          });
         } else {
-            res.send('Something went wrong...');
+            res.send('It seems connecting to the PostgreSQL failed.');
         }
     });
 });
-app.post('/logout', function(req, res) {
-    delete req.session.user;
+app.get('/logout', function(req, res) {
+    delete req.session.name;
     res.send('Logout finished.');
 });
 app.get('/api', function(req, res) {
@@ -121,11 +160,38 @@ app.get('/api', function(req, res) {
         q: req.param("q"),
         p: req.param("p") ? req.param("p") : 1
     };
-    // bing.search(params, function(err, result) {
-    yahoo.search(params, function(err, result) {
-        res.setHeader("Content-Type", "application/json; charset=utf-8");
-        res.send(util.htmlspecialchars_decode(result));
-    });
+
+    if (undefined !== req.session.name) {
+        pg.connect(conString, function(err, client) {
+            if (null !== client) {
+                client.query('SELECT search_engine FROM conf WHERE member_id = (SELECT id FROM member WHERE name = $1)',
+                             [req.session.name],
+                             function(err, result) {
+                                 var search = null;
+                                 if ('yahoo' === result.rows[0].search_engine) { search = yahoo; }
+                                 else if ('bing' === result.rows[0].search_engine) { search = bing; }
+
+                                 if (null === search) {
+                                     console.log('Configuration data seems corrupt.');
+                                 } else {
+                                     search.search(params, function(err, result) {
+                                         res.setHeader("Content-Type", "application/json; charset=utf-8");
+                                         res.send(result);
+                                     });
+                                 }
+                             });
+            } else {
+                res.send('It seems connecting to the PostgreSQL failed.');
+            }
+        });
+    } else {
+        // default is bing search
+        bing.search(params, function(err, result) {
+        // yahoo.search(params, function(err, result) {
+            res.setHeader("Content-Type", "application/json; charset=utf-8");
+            res.send(result);
+        });
+    }
 });
 
 if (!module.parent) {

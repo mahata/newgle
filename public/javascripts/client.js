@@ -69,10 +69,10 @@ function search() {
                                                  "</div>" +
                                                  "</div>" +
                                                  "</li>");
-                      // $("#search-result-title-" + i).text(json.SearchResponse.Web.Results[i].Title);
-                      // $("#search-result-desc-" + i).text(json.SearchResponse.Web.Results[i].Description);
-                      $("#search-result-title-" + i).html(json.SearchResponse.Web.Results[i].Title); // don't need escape for Yahoo!
-                      $("#search-result-desc-" + i).html(json.SearchResponse.Web.Results[i].Description); // don't need escape for Yahoo!
+                      $("#search-result-title-" + i).text(json.SearchResponse.Web.Results[i].Title);
+                      $("#search-result-desc-" + i).text(json.SearchResponse.Web.Results[i].Description);
+                      // $("#search-result-title-" + i).html(json.SearchResponse.Web.Results[i].Title);
+                      // $("#search-result-desc-" + i).html(json.SearchResponse.Web.Results[i].Description);
                       $("#search-result-desc-" + i).html(emphasize_keyword($("#search-result-desc-" + i).html(), $("#q").val()));
                   }
 

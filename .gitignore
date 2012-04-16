@@ -1,5 +1,6 @@
 node_modules
 log.db
+logfile
 heroku-add-config.py
 local-add-config.sh
 *.log
