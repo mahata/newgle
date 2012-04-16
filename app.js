@@ -40,9 +40,9 @@ app.configure('production', function() {
 
 // Routes
 app.get('/', function(req, res) {
-    if (undefined !== req.param('q')) {
-        res.redirect('/#q=' + req.param('q'));
-    }
+    // if (undefined !== req.param('q')) {
+    //     res.redirect('/#q=' + req.param('q'));
+    // }
 
     res.render('search', {
         title: 'Newgle',
