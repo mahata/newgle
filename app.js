@@ -63,7 +63,7 @@ app.get('/config', function(req, res) {
                              function(err, result) {
                                  res.render('config', {
                                      title: 'Newgle - config',
-                                     search_engine: result.rows[0].search_engine
+                                     search_engine: result.rows[0] ? result.rows[0].search_engine : null
                                  });
                              });
             } else {
@@ -168,7 +168,8 @@ app.get('/api', function(req, res) {
                              [req.session.name],
                              function(err, result) {
                                  var search = null;
-                                 if ('yahoo' === result.rows[0].search_engine) { search = yahoo; }
+                                 if (undefined === result.rows[0]) { search = bing; } // default
+                                 else if ('yahoo' === result.rows[0].search_engine) { search = yahoo; }
                                  else if ('bing' === result.rows[0].search_engine) { search = bing; }
 
                                  if (null === search) {
