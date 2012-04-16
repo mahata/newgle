@@ -108,7 +108,9 @@ app.post('/login', function(req, res) {
                                                                        req.param('name'),
                                                                        process.env.STRETCH_TIMES)],
                          function(err, result) {
-                             if (null === err && req.param('name') === result.rows[0].name) {
+                             if (null === err &&
+                                 undefined !== result.rows[0] &&
+                                 result.rows[0].name === req.param('name')) {
                                  req.session.name = req.param('name');
                              }
                              res.render('login-done', {
