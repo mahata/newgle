@@ -41,27 +41,24 @@ app.configure('production', function() {
 });
 
 // Routes
-app.get('/', function(req, res) {
+app.get('/', router.domainCheck, function(req, res) {
     if (undefined !== req.param('q')) {
         console.log('redirect');
         res.redirect('/#q=' + req.param('q'));
-    } else {
-        res.render('search', {
-            title: 'Newgle',
-            name: req.session.name
-        });
+        return;
     }
+
+    res.render('search', {
+        title: 'Newgle',
+        name: req.session.name
+    });
 });
 app.get('/test', router.domainCheck, function(req, res) {
-    // console.log(scheme.run('(+ 1 2)'));
-    // console.log(req.url);
-    // console.log(req.headers.host);
-    // console.log(req.session.ssl)
     var _segmenter = new segmenter.TinySegmenter(),
         segs = _segmenter.segment("私の名前は中野です");
     res.send(segs.join(" | "));
 });
-app.get('/config', function(req, res) {
+app.get('/config', router.domainCheck, function(req, res) {
     if (undefined !== req.session.name) {
         pg.connect(conString, function(err, client) {
             if (null !== client) {
@@ -81,7 +78,7 @@ app.get('/config', function(req, res) {
         res.send('You must be logged in to set config.');
     }
 });
-app.post('/config', function(req, res) {
+app.post('/config', router.domainCheck, function(req, res) {
     if (undefined !== req.session.name) {
         pg.connect(conString, function(err, client) {
             if (null !== client) {
@@ -102,12 +99,12 @@ app.post('/config', function(req, res) {
         res.send('You must be logged in to set config.');
     }
 });
-app.get('/login', function(req, res) {
+app.get('/login', router.domainCheck, function(req, res) {
     res.render('login', {
         title: 'Newgle - login'
     });
 });
-app.post('/login', function(req, res) {
+app.post('/login', router.domainCheck, function(req, res) {
     pg.connect(conString, function(err, client) {
         if (null !== client) {
             client.query('SELECT name FROM member WHERE name = $1 AND pass = $2',
@@ -132,12 +129,12 @@ app.post('/login', function(req, res) {
         }
     });
 });
-app.get('/signup', function(req, res) {
+app.get('/signup', router.domainCheck, function(req, res) {
     res.render('signup', {
         title: 'Newgle - signup'
     });
 });
-app.post('/signup', function(req, res) {
+app.post('/signup', router.domainCheck, function(req, res) {
     pg.connect(conString, function(err, client) {
         if (null !== client) {
             client.query('INSERT INTO member (name, pass, created_at) VALUES ($1, $2, $3)',
@@ -160,11 +157,11 @@ app.post('/signup', function(req, res) {
         }
     });
 });
-app.get('/logout', function(req, res) {
+app.get('/logout', router.domainCheck, function(req, res) {
     delete req.session.name;
     res.send('Logout finished.');
 });
-app.get('/api', function(req, res) {
+app.get('/api', router.domainCheck, function(req, res) {
     var params = {
         q: req.param("q"),
         p: req.param("p") ? req.param("p") : 1
