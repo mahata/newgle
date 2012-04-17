@@ -18,7 +18,7 @@ div(id="config")
             ul
               li
                 - if ('bing' == search_engine)
-                  input(checked="checked", id="bing", name="search-engine", type="radio", value="bing")
+                  input(autofocus, checked="checked", id="bing", name="search-engine", type="radio", value="bing")
                 - else
                   input(id="bing", name="search-engine", type="radio", value="bing")
                 label(for="bing") &nbsp;Bing
