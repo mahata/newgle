@@ -53,8 +53,11 @@ app.get('/', function(req, res) {
 });
 app.get('/test', router.domainCheck, function(req, res) {
     // console.log(scheme.run('(+ 1 2)'));
-    var _segmenter = new segmenter.TinySegmenter();
-    var segs = _segmenter.segment("私の名前は中野です");
+    // console.log(req.url);
+    // console.log(req.headers.host);
+    // console.log(req.session.ssl)
+    var _segmenter = new segmenter.TinySegmenter(),
+        segs = _segmenter.segment("私の名前は中野です");
     res.send(segs.join(" | "));
 });
 app.get('/config', function(req, res) {
