@@ -8,6 +8,7 @@ function refresh(page) {
 function search() {
     var page = get_hash_params(location.hash).p ? get_hash_params(location.hash).p : 1;
 
+    $.cookie('search-lock', 1);
     $("#search-region").css("opacity", "0.3");
     $.getJSON("/api", {
         q: $("#q").val(),
@@ -87,6 +88,8 @@ function search() {
 
         location.hash = "#q=" + $("#q").val() + "&p=" + page;
         $("#search-region").css("opacity", "1.0");
+
+        $.cookie('search-lock', 0);
     });
 }
 
@@ -126,8 +129,10 @@ $(function(){
 
     // for paging like: page2 => page1 using BACK button of browsers
     $(window).bind("hashchange", function() {
-        $('html,body').scrollTop(0);
-        search();
+        if (0 === parseInt($.cookie('search-lock'))) {
+            $('html,body').scrollTop(0);
+            search();
+        }
     });
 });
 
