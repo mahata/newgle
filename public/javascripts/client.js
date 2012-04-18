@@ -6,7 +6,7 @@ function refresh(page) {
 }
 
 function search() {
-    var page = get_hash_params(location.hash).p ? get_hash_params(location.hash).p : 1;
+    var page = getHashParams(location.hash).p ? getHashParams(location.hash).p : 1;
 
     $.cookie('search-lock', 1);
     $("#search-region").css("opacity", "0.3");
@@ -29,15 +29,15 @@ function search() {
                 .replace(/([0-9]+?)(?=(?:[0-9]{3})+$)/g , "$1,"));
 
         for (var i = 0; i < json.SearchResponse.Web.Results.length; i++) {
-            var deep_link = "";
+            var deepLink = "";
             if (json.SearchResponse.Web.Results[i].DeepLinks) {
-                var repeat_num = (json.SearchResponse.Web.Results[i].DeepLinks.length <= 5) ? json.SearchResponse.Web.Results[i].DeepLinks.length : 5,
-                    link_list = [];
-                for (var j = 0; j < repeat_num; j++) {
-                    link_list.push("<a href=\"" + json.SearchResponse.Web.Results[i].DeepLinks[j].Url + "\">" +
-                                   emphasize_keyword(json.SearchResponse.Web.Results[i].DeepLinks[j].Title, $("#q").val()) + "</a>");
+                var repeatNum = (json.SearchResponse.Web.Results[i].DeepLinks.length <= 5) ? json.SearchResponse.Web.Results[i].DeepLinks.length : 5,
+                    linkList = [];
+                for (var j = 0; j < repeatNum; j++) {
+                    linkList.push("<a href=\"" + json.SearchResponse.Web.Results[i].DeepLinks[j].Url + "\">" +
+                                   emphasizeKeyword(json.SearchResponse.Web.Results[i].DeepLinks[j].Title, $("#q").val()) + "</a>");
                 }
-                deep_link = "<div class=\"search-result-deep-link\"><strong>もっと見る:</strong> " + link_list.join(" - ") + "</div>";
+                deepLink = "<div class=\"search-result-deep-link\"><strong>もっと見る:</strong> " + linkList.join(" - ") + "</div>";
             }
             $("#search-region").append("<li>" +
                                        "<div class=\"search-result\">" +
@@ -59,11 +59,11 @@ function search() {
                                        "</p>" +
                                        "<div class=\"search-result-subtle-info\">" +
                                        "<span class=\"search-result-disp-url\">" +
-                                       emphasize_keyword(json.SearchResponse.Web.Results[i].DisplayUrl, $("#q").val()) +
+                                       emphasizeKeyword(json.SearchResponse.Web.Results[i].DisplayUrl, $("#q").val()) +
                                        "</span>" +
                                        " - " +
                                        "<a class=\"search-result-cache\" href=\"" + json.SearchResponse.Web.Results[i].CacheUrl + "\">キャッシュ</a>" +
-                                       deep_link +
+                                       deepLink +
                                        "<p style=\"clear: both;\"></p>" +
                                        "</div>" +
                                        "</div>" +
@@ -73,18 +73,18 @@ function search() {
             $("#search-result-desc-" + i).text(json.SearchResponse.Web.Results[i].Description);
             // $("#search-result-title-" + i).html(json.SearchResponse.Web.Results[i].Title);
             // $("#search-result-desc-" + i).html(json.SearchResponse.Web.Results[i].Description);
-            $("#search-result-desc-" + i).html(emphasize_keyword($("#search-result-desc-" + i).html(), $("#q").val()));
+            $("#search-result-desc-" + i).html(emphasizeKeyword($("#search-result-desc-" + i).html(), $("#q").val()));
         }
 
-        var paging_html = "";
+        var pagingHtml = "";
         if (1 < page) {
-            paging_html += "<a href=\"javascript:void(0);\" onclick=\"refresh(" + (parseInt(page) - 1) + "); return false;\">&laquo; 前の検索結果を見る</a>";
+            pagingHtml += "<a href=\"javascript:void(0);\" onclick=\"refresh(" + (parseInt(page) - 1) + "); return false;\">&laquo; 前の検索結果を見る</a>";
         }
         if (json.SearchResponse.Web.Offset + json.SearchResponse.Web.Results.length < json.SearchResponse.Web.Total) {
-            if ("" != paging_html) { paging_html += "&nbsp;|&nbsp;"; }
-            paging_html += "<a href=\"javascript:void(0);\" onclick=\"refresh(" + (parseInt(page) + 1) + "); return false;\">もっと検索結果を見る&raquo;</a>";
+            if ("" != pagingHtml) { pagingHtml += "&nbsp;|&nbsp;"; }
+            pagingHtml += "<a href=\"javascript:void(0);\" onclick=\"refresh(" + (parseInt(page) + 1) + "); return false;\">もっと検索結果を見る&raquo;</a>";
         }
-        $("#search-pager").html(paging_html);
+        $("#search-pager").html(pagingHtml);
 
         location.hash = "#q=" + $("#q").val() + "&p=" + page;
         $("#search-region").css("opacity", "1.0");
@@ -93,26 +93,26 @@ function search() {
     });
 }
 
-function get_hash_params(loc_hash) {
-    var url_params = {},
+function getHashParams(locHash) {
+    var urlParams = {},
         e,
         a = /\+/g,
         r = /([^&=]+)=?([^&]*)/g,
         d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
-        q = loc_hash.substring(1);
+        q = locHash.substring(1);
 
     while (e = r.exec(q))
-        url_params[d(e[1])] = d(e[2]);
+        urlParams[d(e[1])] = d(e[2]);
 
-    return url_params;
+    return urlParams;
 }
 
 // emphasize keyword from a text
-function emphasize_keyword(text, keyword) {
-    var keyword_list = keyword.replace(/[　\s]+/, " ").split(" ");
+function emphasizeKeyword(text, keyword) {
+    var keywordList = keyword.replace(/[　\s]+/, " ").split(" ");
 
-    for (var i = 0; i < keyword_list.length; i++) {
-        var reg = new RegExp("(" + keyword_list[i] + ")", "gi");
+    for (var i = 0; i < keywordList.length; i++) {
+        var reg = new RegExp("(" + keywordList[i] + ")", "gi");
         text = text.replace(reg, "<strong>$1</strong>");
     }
 
@@ -121,9 +121,9 @@ function emphasize_keyword(text, keyword) {
 
 $(function(){
     // for paging like: search result => search page using BACK button of browsers
-    var hash_params = get_hash_params(location.hash);
-    if (hash_params.q && "" != hash_params.q) {
-        $("#q").val(hash_params.q);
+    var hashParams = getHashParams(location.hash);
+    if (hashParams.q && "" != hashParams.q) {
+        $("#q").val(hashParams.q);
         search();
     }
 
