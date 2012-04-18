@@ -2,12 +2,10 @@ function refresh(page) {
     location.hash = "#q=" + $("#q").val() + "&p=" + page;
     $('html,body').scrollTop(0);
 
-    // console.log('refresh is calling search()');
     search();
 }
 
 function search() {
-    console.log('search is trigggered.');
     var page = get_hash_params(location.hash).p ? get_hash_params(location.hash).p : 1;
 
     $("#search-region").css("opacity", "0.3");
@@ -16,8 +14,6 @@ function search() {
         p: page
     }, function(json) {
         document.title = 'Newgle - ' + $('#q').val();
-        alert(document.cookie);
-        document.cookie = 'lock';
 
         $("#search-summary").css("display","block");
         $("#bing-logo").css("display","block");
@@ -34,9 +30,8 @@ function search() {
         for (var i = 0; i < json.SearchResponse.Web.Results.length; i++) {
             var deep_link = "";
             if (json.SearchResponse.Web.Results[i].DeepLinks) {
-                var repeat_num = (json.SearchResponse.Web.Results[i].DeepLinks.length <= 5) ?
-                    json.SearchResponse.Web.Results[i].DeepLinks.length : 5;
-                var link_list = [];
+                var repeat_num = (json.SearchResponse.Web.Results[i].DeepLinks.length <= 5) ? json.SearchResponse.Web.Results[i].DeepLinks.length : 5,
+                    link_list = [];
                 for (var j = 0; j < repeat_num; j++) {
                     link_list.push("<a href=\"" + json.SearchResponse.Web.Results[i].DeepLinks[j].Url + "\">" +
                                    emphasize_keyword(json.SearchResponse.Web.Results[i].DeepLinks[j].Title, $("#q").val()) + "</a>");
@@ -89,9 +84,6 @@ function search() {
             paging_html += "<a href=\"javascript:void(0);\" onclick=\"refresh(" + (parseInt(page) + 1) + "); return false;\">もっと検索結果を見る&raquo;</a>";
         }
         $("#search-pager").html(paging_html);
-        document.cookie = '';
-        console.log('coming here??');
-        alert(document.cookie);
 
         location.hash = "#q=" + $("#q").val() + "&p=" + page;
         $("#search-region").css("opacity", "1.0");
@@ -99,12 +91,12 @@ function search() {
 }
 
 function get_hash_params(loc_hash) {
-    var url_params = {};
-    var e;
-    var a = /\+/g;
-    var r = /([^&=]+)=?([^&]*)/g;
-    var d = function (s) { return decodeURIComponent(s.replace(a, " ")); };
-    var q = loc_hash.substring(1);
+    var url_params = {},
+        e,
+        a = /\+/g,
+        r = /([^&=]+)=?([^&]*)/g,
+        d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+        q = loc_hash.substring(1);
 
     while (e = r.exec(q))
         url_params[d(e[1])] = d(e[2]);
@@ -135,13 +127,7 @@ $(function(){
     // for paging like: page2 => page1 using BACK button of browsers
     $(window).bind("hashchange", function() {
         $('html,body').scrollTop(0);
-        console.log('dbg typeof = ' + (typeof document.cookie) + ', val = ' + document.cookie);
-        if ('' === document.cookie) {
-            console.log('document.cookie is undefined');
-            search();
-        } else {
-            console.log('document.cookie is *not* undefined');
-        }
+        search();
     });
 });
 
