@@ -44,7 +44,7 @@ app.configure('production', function() {
 app.get('/', router.domainCheck, function(req, res) {
     if (undefined !== req.param('q')) {
         console.log('redirect');
-        res.redirect('/#q=' + req.param('q'));
+        res.redirect('/#q=' + req.param('q') + '&p=1');
         return;
     }
 

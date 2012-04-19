@@ -1,8 +1,6 @@
 function refresh(page) {
     location.hash = "#q=" + $("#q").val() + "&p=" + page;
     $('html,body').scrollTop(0);
-
-    search();
 }
 
 function search() {
