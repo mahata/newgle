@@ -1,10 +1,12 @@
-function refresh(page) {
+var client = {};
+
+client.refresh = function(page) {
     location.hash = "#q=" + $("#q").val() + "&p=" + page;
     $('html,body').scrollTop(0);
 }
 
-function search() {
-    var page = getHashParams(location.hash).p ? getHashParams(location.hash).p : 1;
+client.search = function() {
+    var page = client.getHashParams(location.hash).p ? client.getHashParams(location.hash).p : 1;
 
     $.cookie('search-lock', 1);
     $("#search-region").css("opacity", "0.3");
@@ -33,7 +35,7 @@ function search() {
                     linkList = [];
                 for (var j = 0; j < repeatNum; j++) {
                     linkList.push("<a href=\"" + json.SearchResponse.Web.Results[i].DeepLinks[j].Url + "\">" +
-                                   emphasizeKeyword(json.SearchResponse.Web.Results[i].DeepLinks[j].Title, $("#q").val()) + "</a>");
+                                   client.emphasizeKeyword(json.SearchResponse.Web.Results[i].DeepLinks[j].Title, $("#q").val()) + "</a>");
                 }
                 deepLink = "<div class=\"search-result-deep-link\"><strong>もっと見る:</strong> " + linkList.join(" - ") + "</div>";
             }
@@ -57,7 +59,7 @@ function search() {
                                        "</p>" +
                                        "<div class=\"search-result-subtle-info\">" +
                                        "<span class=\"search-result-disp-url\">" +
-                                       emphasizeKeyword(json.SearchResponse.Web.Results[i].DisplayUrl, $("#q").val()) +
+                                       client.emphasizeKeyword(json.SearchResponse.Web.Results[i].DisplayUrl, $("#q").val()) +
                                        "</span>" +
                                        " - " +
                                        "<a class=\"search-result-cache\" href=\"" + json.SearchResponse.Web.Results[i].CacheUrl + "\">キャッシュ</a>" +
@@ -71,16 +73,16 @@ function search() {
             $("#search-result-desc-" + i).text(json.SearchResponse.Web.Results[i].Description);
             // $("#search-result-title-" + i).html(json.SearchResponse.Web.Results[i].Title);
             // $("#search-result-desc-" + i).html(json.SearchResponse.Web.Results[i].Description);
-            $("#search-result-desc-" + i).html(emphasizeKeyword($("#search-result-desc-" + i).html(), $("#q").val()));
+            $("#search-result-desc-" + i).html(client.emphasizeKeyword($("#search-result-desc-" + i).html(), $("#q").val()));
         }
 
         var pagingHtml = "";
         if (1 < page) {
-            pagingHtml += "<a href=\"javascript:void(0);\" onclick=\"refresh(" + (parseInt(page) - 1) + "); return false;\">&laquo; 前の検索結果を見る</a>";
+            pagingHtml += "<a href=\"javascript:void(0);\" onclick=\"client.refresh(" + (parseInt(page) - 1) + "); return false;\">&laquo; 前の検索結果を見る</a>";
         }
         if (json.SearchResponse.Web.Offset + json.SearchResponse.Web.Results.length < json.SearchResponse.Web.Total) {
             if ("" != pagingHtml) { pagingHtml += "&nbsp;|&nbsp;"; }
-            pagingHtml += "<a href=\"javascript:void(0);\" onclick=\"refresh(" + (parseInt(page) + 1) + "); return false;\">もっと検索結果を見る&raquo;</a>";
+            pagingHtml += "<a href=\"javascript:void(0);\" onclick=\"client.refresh(" + (parseInt(page) + 1) + "); return false;\">もっと検索結果を見る&raquo;</a>";
         }
         $("#search-pager").html(pagingHtml);
 
@@ -91,7 +93,7 @@ function search() {
     });
 }
 
-function getHashParams(locHash) {
+client.getHashParams = function(locHash) {
     var urlParams = {},
         e,
         a = /\+/g,
@@ -106,7 +108,7 @@ function getHashParams(locHash) {
 }
 
 // emphasize keyword from a text
-function emphasizeKeyword(text, keyword) {
+client.emphasizeKeyword = function(text, keyword) {
     var keywordList = keyword.replace(/[　\s]+/, " ").split(" ");
 
     for (var i = 0; i < keywordList.length; i++) {
@@ -119,17 +121,17 @@ function emphasizeKeyword(text, keyword) {
 
 $(function(){
     // for paging like: search result => search page using BACK button of browsers
-    var hashParams = getHashParams(location.hash);
+    var hashParams = client.getHashParams(location.hash);
     if (hashParams.q && "" != hashParams.q) {
         $("#q").val(hashParams.q);
-        search();
+        client.search();
     }
 
     // for paging like: page2 => page1 using BACK button of browsers
     $(window).bind("hashchange", function() {
         if (0 === parseInt($.cookie('search-lock'))) {
             $('html,body').scrollTop(0);
-            search();
+            client.search();
         }
     });
 });
