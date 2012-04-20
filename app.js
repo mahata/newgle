@@ -49,7 +49,7 @@ app.get('/', router.domainCheck, function(req, res) {
     }
 
     res.render('search', {
-        // name: req.session.name,
+        name: (undefined === (typeof req.session)) ? undefined : req.session.name,
         searchBox: true,
         title: 'Newgle'
     });
