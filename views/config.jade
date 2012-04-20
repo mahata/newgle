@@ -1,33 +1,31 @@
-table
-  tbody
-    tr
-      td
-        a(href="/")
-          img(src="/images/newgle-small.png", alt="logo")
+div(id="head-line")!= partial("include/head-line.jade")
 
-h2 設定
+div(id="main")
+  div(id="head-logo")!= partial("include/head-logo.jade")
 
-div(id="config")
-  form(method="POST")
-    table
-      tbody
-        tr
-          td
-            検索エンジン
-          td
-            ul
-              li
-                - if ('bing' == search_engine)
-                  input(autofocus, checked="checked", id="bing", name="search-engine", type="radio", value="bing")
-                - else
-                  input(id="bing", name="search-engine", type="radio", value="bing")
-                label(for="bing") &nbsp;Bing
-              li
-                - if ('yahoo' == search_engine)
-                  input(checked="checked", id="yahoo", name="search-engine", type="radio", value="yahoo")
-                - else
-                  input(id="yahoo", name="search-engine", type="radio", value="yahoo")
-                label(for="yahoo") &nbsp;Yahoo!
-        tr
-          td(cols="2")
-            input(type="submit", value="設定")
+  h2 設定
+
+  div(id="config")
+    form(method="POST")
+      table
+        tbody
+          tr
+            td
+              検索エンジン
+            td
+              ul
+                li
+                  - if ('bing' == search_engine)
+                    input(autofocus, checked="checked", id="bing", name="search-engine", type="radio", value="bing")
+                  - else
+                    input(id="bing", name="search-engine", type="radio", value="bing")
+                  label(for="bing") &nbsp;Bing
+                li
+                  - if ('yahoo' == search_engine)
+                    input(checked="checked", id="yahoo", name="search-engine", type="radio", value="yahoo")
+                  - else
+                    input(id="yahoo", name="search-engine", type="radio", value="yahoo")
+                  label(for="yahoo") &nbsp;Yahoo!
+          tr
+            td(cols="2")
+              input(type="submit", value="設定")

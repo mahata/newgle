@@ -1,20 +1,18 @@
-table
-  tbody
-    tr
-      td
-        a(href="/")
-          img(src="/images/newgle-small.png", alt="logo")
+div(id="head-line")!= partial("include/head-line.jade")
 
-h2 ユーザ登録
+div(id="main")
+  div(id="head-logo")!= partial("include/head-logo.jade")
 
-p
-  - if (err)
-    p ユーザ登録に失敗しました。
-    p #{err.code}, #{err.message}
-  - else
-    p ユーザ登録に成功しました!
-    p
-      | こんにちは、
-      strong #{name}
-      | &nbsp;さん。
+  h2 ユーザ登録
+
+  p
+    - if (err)
+      p ユーザ登録に失敗しました。
+      p #{err.code}, #{err.message}
+    - else
+      p ユーザ登録に成功しました!
+      p
+        | こんにちは、
+        strong #{name}
+        | &nbsp;さん。
 

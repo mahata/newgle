@@ -1,26 +1,24 @@
-table
-  tbody
-    tr
-      td
-        a(href="/")
-          img(src="/images/newgle-small.png", alt="logo")
+div(id="head-line")!= partial("include/head-line.jade")
 
-h2 ユーザ登録
+div(id="main")
+  div(id="head-logo")!= partial("include/head-logo.jade")
 
-div(id="signup")
-  form(method="POST")
-    table
-      tbody
-        tr
-          td
-            ユーザ名
-          td
-            input(autofocus, name="name", placeholder="ユーザ名", type="text")
-        tr
-          td
-            パスワード
-          td
-            input(name="pass", placeholder="パスワード", type="password")
-        tr
-          td(cols="2")
-            input(type="submit", value="登録")
+  h2 ユーザ登録
+
+  div(id="signup")
+    form(method="POST")
+      table
+        tbody
+          tr
+            td
+              ユーザ名
+            td
+              input(autofocus, name="name", placeholder="ユーザ名", type="text")
+          tr
+            td
+              パスワード
+            td
+              input(name="pass", placeholder="パスワード", type="password")
+          tr
+            td(cols="2")
+              input(type="submit", value="登録")

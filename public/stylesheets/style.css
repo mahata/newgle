@@ -1,5 +1,7 @@
 body {
-    padding: 5px 0px 50px 20px;
+    padding: 0;
+    border: 0;
+    margin: 0;
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -20,6 +22,17 @@ a:hover {
 
 a.search-result-cache {
     text-decoration: none;
+}
+
+#head-line {
+    background-color: #ddd;
+    margin: 0px 0px 10px;
+    padding: 5px 10px 5px;
+    text-align: right;
+}
+
+#main {
+    margin: 15px;
 }
 
 h2.search-result-title {
@@ -66,7 +79,7 @@ ul.search-result-deep-link {
     list-style-type: none;
 }
 
-div#search-summary {
+#search-summary {
     width: 100%;
     text-align: right;
     padding: 3px 0px 3px;
@@ -77,11 +90,11 @@ div#search-summary {
     display: none;
 }
 
-div#search-pager {
+#search-pager {
     width: 100%;
     text-align: center;
 }
 
-div#bing-logo {
+#bing-logo {
     display: none;
 }

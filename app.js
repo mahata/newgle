@@ -49,8 +49,9 @@ app.get('/', router.domainCheck, function(req, res) {
     }
 
     res.render('search', {
-        title: 'Newgle',
-        name: req.session.name
+        name: req.session.name,
+        searchBox: true,
+        title: 'Newgle'
     });
 });
 app.get('/test', router.domainCheck, function(req, res) {
@@ -66,6 +67,7 @@ app.get('/config', router.domainCheck, function(req, res) {
                              [req.session.name],
                              function(err, result) {
                                  res.render('config', {
+                                     name: req.session.name,
                                      title: 'Newgle - config',
                                      search_engine: result.rows[0] ? result.rows[0].search_engine : null
                                  });
@@ -86,6 +88,7 @@ app.post('/config', router.domainCheck, function(req, res) {
                              [req.session.name, req.param('search-engine')],
                              function(err, result) {
                                  res.render('config-done', {
+                                     name: req.session.name,
                                      title: 'Newgle - config done',
                                      result: result,
                                      err: err
@@ -101,7 +104,8 @@ app.post('/config', router.domainCheck, function(req, res) {
 });
 app.get('/login', router.domainCheck, function(req, res) {
     res.render('login', {
-        title: 'Newgle - login'
+        title: 'Newgle - login',
+        name: null
     });
 });
 app.post('/login', router.domainCheck, function(req, res) {
@@ -131,7 +135,8 @@ app.post('/login', router.domainCheck, function(req, res) {
 });
 app.get('/signup', router.domainCheck, function(req, res) {
     res.render('signup', {
-        title: 'Newgle - signup'
+        title: 'Newgle - signup',
+        name: null
     });
 });
 app.post('/signup', router.domainCheck, function(req, res) {

@@ -1,15 +1,13 @@
-table
-  tbody
-    tr
-      td
-        a(href="/")
-          img(src="/images/newgle-small.png", alt="logo")
+div(id="head-line")!= partial("include/head-line.jade")
 
-h2 設定変更
+div(id="main")
+  div(id="head-logo")!= partial("include/head-logo.jade")
 
-p
-  - if (err || 0 == result.rowCount)
-    p 設定変更に失敗しました。
-  - else
-    p 設定変更に成功しました!
+  h2 設定変更
+
+  p
+    - if (err || 0 == result.rowCount)
+      p 設定変更に失敗しました。
+    - else
+      p 設定変更に成功しました!
 

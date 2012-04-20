@@ -1,36 +1,25 @@
-table
-  tbody
-    tr
-      td
-        a(href="/")
-          img(src="/images/newgle-small.png", alt="logo")
-      td
-        form#form(onsubmit="location.hash = \"#q=\" + $(\"#q\").val() + \"&p=1\"; return false;")
-          input#text(type="text", id="q", size="48", placeholder="検索クエリ", autofocus="on")
-          input(type="submit", value="検索")
-      - if (name)
-        td
-          p
-            strong (#{name}
-            | &nbsp;としてログイン中)
+div(id="head-line")!= partial("include/head-line.jade")
 
-div(id="search-summary")
-  strong
-    span(id="search-word")
-  span &nbsp;で検索した結果&nbsp;
-  span(id="search-hit-range-from")
-  span ~
-  span(id="search-hit-range-to")
-  span 件目&nbsp;/&nbsp;約
-  span(id="search-hit-num")
-  span 件の検索結果があります。
+div(id="main")
+  div(id="head-logo")!= partial("include/head-logo.jade")
 
-div
-  ul(id="search-region")
+  div(id="search-summary")
+    strong
+      span(id="search-word")
+    span &nbsp;で検索した結果&nbsp;
+    span(id="search-hit-range-from")
+    span ~
+    span(id="search-hit-range-to")
+    span 件目&nbsp;/&nbsp;約
+    span(id="search-hit-num")
+    span 件の検索結果があります。
 
-div(id="search-pager")
+  div
+    ul(id="search-region")
 
-div(id="bing-logo")
-  a(href="http://bing.com/", rel="nofollow")
-    // img(src="/images/bing-logo.png", alt="bing-logo")
-    img(src="/images/yahoo-logo.gif", alt="bing-logo")
+  div(id="search-pager")
+
+  div(id="bing-logo")
+    a(href="http://bing.com/", rel="nofollow")
+      // img(src="/images/bing-logo.png", alt="bing-logo")
+      img(src="/images/yahoo-logo.gif", alt="bing-logo")

@@ -15,15 +15,13 @@ client.search = function() {
         p: page
     }, function(json) {
         document.title = 'Newgle - ' + $('#q').val();
-
         $("#search-summary").css("display","block");
         $("#bing-logo").css("display","block");
         $("#search-region").html("");
 
         $("#search-word").text($("#q").val());
         $("#search-hit-range-from").text(json.SearchResponse.Web.Offset + 1);
-        $("#search-hit-range-to").text(json.SearchResponse.Web.Offset +
-                                       json.SearchResponse.Web.Results.length);
+        $("#search-hit-range-to").text(json.SearchResponse.Web.Offset + json.SearchResponse.Web.Results.length);
         $("#search-hit-num").text(
             json.SearchResponse.Web.Total.toString()
                 .replace(/([0-9]+?)(?=(?:[0-9]{3})+$)/g , "$1,"));
