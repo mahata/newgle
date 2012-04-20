@@ -1,0 +1,7 @@
+<search
+   name="Newgle"
+   method="GET"
+   action="http://newgle.mahata.net/"
+   queryCharset="UTF-8"
+   sourceTextEncoding="1">
+<input name="q" user>

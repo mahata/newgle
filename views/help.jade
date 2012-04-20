@@ -1,0 +1,33 @@
+div(id="head-line")!= partial("include/head-line.jade")
+
+div(id="main")
+  div(id="head-logo")!= partial("include/head-logo.jade")
+
+  h2 ヘルプ
+
+  h3 Newgleとは
+  div Newgleは新世代の検索エンジンです。
+
+  h3 Newgleをデフォルトの検索エンジンにするには
+  div
+    | 現在は
+    a(href="http://www.google.co.jp/chrome/") Google Chrome
+    | と
+    a(href="http://mozilla.jp/firefox/") Firefox
+    | でNewgleをデフォルトの検索エンジンにできます。
+
+  h4 Google Chromeの場合
+  div Google Chromeをご利用のお方は次の手順でNewgleをデフォルトの検索エンジンにできます。
+
+  ul
+    li Chrome =&gt; Preferences =&gt; Basics =&gt; Search =&gt; Manage Search Enginesを開く
+    li Default search settingsに"Newgle, newgle.mahata.net, http://newgle.mahata.net/#q=%s&p=1"の項目を追加する
+    li 追加されたNewgleの項目で"Make Default"をクリックする
+
+  h4 Firefoxの場合
+
+  div Firefoxをご利用のお方は次のリンクからNewgleをデフォルトの検索エンジンにできます。
+
+  ul
+    li
+      a(href="javascript:window.sidebar.addSearchEngine('http://newgle.mahata.net/misc/tatsuoschangelog.src', 'http://newgle.mahata.net/images/newgle.ico', 'Newgle', 'Web')") Firefox検索プラグインの追加

@@ -9,7 +9,7 @@ var express = require('express'),
     pg = require('pg'),
     http = require('http'),
     crypto = require('crypto'),
-    scheme = require('biwascheme'),
+    // scheme = require('biwascheme'),
 
     bing = require(__dirname + "/lib/bing"),
     yahoo = require(__dirname + "/lib/yahoo"),
@@ -101,6 +101,12 @@ app.post('/config', router.domainCheck, function(req, res) {
     } else {
         res.send('You must be logged in to set config.');
     }
+});
+app.get('/help', router.domainCheck, function(req, res) {
+    res.render('help', {
+        title: 'Newgle - help',
+        name: (undefined === (typeof req.session)) ? undefined : req.session.name
+    });
 });
 app.get('/login', router.domainCheck, function(req, res) {
     res.render('login', {

@@ -1,14 +1,13 @@
-- if (name)
-  span
-    | こんにちは、
-    strong
-      a(href="/config")
-        #{name}
-    | さん。
-- else
-  span
-    a(href="/login")
-      ログイン
-    span &nbsp;-&nbsp;
-    a(href="/signup")
-      サインアップ
+span
+  - if (name)
+      | こんにちは、
+      strong
+        a(href="/config") #{name}
+      | さん。
+  - else
+      a(href="/login") ログイン
+      span &nbsp;-&nbsp;
+      a(href="/signup") サインアップ
+  span &nbsp;-&nbsp;
+    a(href="/help") ヘルプ
+
