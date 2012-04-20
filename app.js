@@ -48,7 +48,6 @@ app.get('/', router.domainCheck, function(req, res) {
         return;
     }
 
-    console.log('hi');
     res.render('search', {
         name: (undefined === (typeof req.session)) ? undefined : req.session.name,
         searchBox: true,
