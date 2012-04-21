@@ -3,6 +3,7 @@
  */
 
 var express = require('express'),
+    async = require('async'),
     io = require('socket.io'),
     db = require('dirty')('log.db'),
     fs = require('fs'),
@@ -59,48 +60,57 @@ app.get('/test', router.domainCheck, function(req, res) {
         segs = _segmenter.segment("私の名前は中野です");
     res.send(segs.join(" | "));
 });
-app.get('/config', router.domainCheck, function(req, res) {
-    if (undefined !== req.session.name) {
-        pg.connect(conString, function(err, client) {
-            if (null !== client) {
-                client.query('SELECT search_engine FROM conf WHERE member_id = (SELECT id FROM member WHERE name = $1)',
-                             [req.session.name],
-                             function(err, result) {
-                                 res.render('config', {
-                                     name: req.session.name,
-                                     title: 'Newgle - config',
-                                     search_engine: result.rows[0] ? result.rows[0].search_engine : null
-                                 });
-                             });
-            } else {
-                res.send('It seems connecting to the PostgreSQL failed.');
-            }
-        });
-    } else {
-        res.send('You must be logged in to set config.');
-    }
+app.get('/config', router.domainCheck, router.loginCheck, function(req, res) {
+    var tasks = [
+        function(callback) {
+            pg.connect(conString, function(err, client) {
+                callback(null, client);
+            });
+        }, function(client, callback) {
+            client.query('SELECT search_engine FROM conf WHERE member_id = (SELECT id FROM member WHERE name = $1)',
+                         [req.session.name],
+                         function(err, selectResult) {
+                             callback(null, selectResult);
+                         });
+        }, function(selectResult, callback) {
+            res.render('config', {
+                name: req.session.name,
+                title: 'Newgle - config',
+                search_engine: selectResult.rows[0] ? selectResult.rows[0].search_engine : null
+            });
+            callback(null, 'done')
+        }
+    ];
+
+    async.waterfall(tasks, function(err, result) {
+        if (err) { console.err(err); }
+    });
 });
-app.post('/config', router.domainCheck, function(req, res) {
-    if (undefined !== req.session.name) {
-        pg.connect(conString, function(err, client) {
-            if (null !== client) {
-                client.query('SELECT set_config($1, $2)', // INSERT-UPDATE
-                             [req.session.name, req.param('search-engine')],
-                             function(err, result) {
-                                 res.render('config-done', {
-                                     name: req.session.name,
-                                     title: 'Newgle - config done',
-                                     result: result,
-                                     err: err
-                                 });
-                             });
-            } else {
-                res.send('It seems connecting to the PostgreSQL failed.');
-            }
-        });
-    } else {
-        res.send('You must be logged in to set config.');
-    }
+app.post('/config', router.domainCheck, router.loginCheck, function(req, res) {
+    var tasks = [
+        function(callback) {
+            pg.connect(conString, function(err, client) {
+                callback(null, client);
+            });
+        }, function(client, callback) {
+            client.query('SELECT set_config($1, $2)', // INSERT-UPDATE
+                         [req.session.name, req.param('search-engine')],
+                         function(err, selectResult) {
+                             callback(null, selectResult);
+                         });
+        }, function(selectResult, callback) {
+            res.render('config-done', {
+                name: req.session.name,
+                title: 'Newgle - config done',
+                result: selectResult
+            });
+            callback(null, 'done');
+        }
+    ];
+
+    async.waterfall(tasks, function(err, result) {
+        if (err) { console.err(err); }
+    });
 });
 app.get('/help', router.domainCheck, function(req, res) {
     res.render('help', {
