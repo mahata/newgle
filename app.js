@@ -192,38 +192,50 @@ app.get('/api', router.domainCheck, function(req, res) {
         p: req.param("p") ? req.param("p") : 1
     };
 
-    if (undefined !== req.session.name) {
-        pg.connect(conString, function(err, client) {
-            if (null !== client) {
-                client.query('SELECT search_engine FROM conf WHERE member_id = (SELECT id FROM member WHERE name = $1)',
-                             [req.session.name],
-                             function(err, result) {
-                                 var search = null;
-                                 if (undefined === result.rows[0]) { search = bing; } // default
-                                 else if ('yahoo' === result.rows[0].search_engine) { search = yahoo; }
-                                 else if ('bing' === result.rows[0].search_engine) { search = bing; }
-
-                                 if (null === search) {
-                                     console.log('Configuration data seems corrupt.');
-                                 } else {
-                                     search.search(params, function(err, result) {
-                                         res.setHeader("Content-Type", "application/json; charset=utf-8");
-                                         res.send(result);
-                                     });
-                                 }
-                             });
-            } else {
-                res.send('It seems connecting to the PostgreSQL failed.');
-            }
-        });
-    } else {
-        // default is bing search
-        bing.search(params, function(err, result) {
-        // yahoo.search(params, function(err, result) {
+    if (undefined === req.session.name) {
+        bing.search(params, function(err, result) { // Bing is the default search engine
             res.setHeader("Content-Type", "application/json; charset=utf-8");
             res.send(result);
         });
+
+        return;
     }
+
+    var tasks = [
+        function(callback) {
+            pg.connect(conString, function(err, client) {
+                callback(null, client);
+            });
+        }, function(client, callback) {
+            client.query('SELECT search_engine FROM conf WHERE member_id = (SELECT id FROM member WHERE name = $1)',
+                         [req.session.name],
+                         function(err, selectResult) {
+                             console.log(req.session.name);
+                             console.log(selectResult);
+                             callback(null, selectResult);
+                         });
+        }, function(selectResult, callback) {
+            console.log(selectResult);
+            var search = null;
+            if (undefined === selectResult.rows[0]) { search = bing; } // default
+            else if ('yahoo' === selectResult.rows[0].search_engine) { search = yahoo; }
+            else if ('bing' === selectResult.rows[0].search_engine) { search = bing; }
+
+            if (null === search) {
+                console.log('Configuration data seems corrupt.');
+            } else {
+                search.search(params, function(err, selectResult) {
+                    res.setHeader("Content-Type", "application/json; charset=utf-8");
+                    res.send(selectResult);
+                });
+                callback(null, 'done');
+            }
+        }
+    ];
+
+    async.waterfall(tasks, function(err, result) {
+        if (err) { console.err(err); }
+    });
 });
 
 if (!module.parent) {
