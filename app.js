@@ -210,12 +210,9 @@ app.get('/api', router.domainCheck, function(req, res) {
             client.query('SELECT search_engine FROM conf WHERE member_id = (SELECT id FROM member WHERE name = $1)',
                          [req.session.name],
                          function(err, selectResult) {
-                             console.log(req.session.name);
-                             console.log(selectResult);
                              callback(null, selectResult);
                          });
         }, function(selectResult, callback) {
-            console.log(selectResult);
             var search = null;
             if (undefined === selectResult.rows[0]) { search = bing; } // default
             else if ('yahoo' === selectResult.rows[0].search_engine) { search = yahoo; }
