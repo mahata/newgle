@@ -6,8 +6,9 @@ div(id="main")
   h2 ログイン
 
   p
-    - if (err || 0 == result.rowCount)
+    - if (undefined === name)
       p ログインに失敗しました。
+      p ユーザ名とパスワードが違います。
     - else
       p ログインに成功しました!
       p

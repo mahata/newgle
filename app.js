@@ -125,28 +125,32 @@ app.get('/login', router.domainCheck, function(req, res) {
     });
 });
 app.post('/login', router.domainCheck, function(req, res) {
-    pg.connect(conString, function(err, client) {
-        if (null !== client) {
+    var tasks = [
+        function(callback) {
+            pg.connect(conString, function(err, client) {
+                callback(null, client);
+            });
+        }, function(client, callback) {
             client.query('SELECT name FROM member WHERE name = $1 AND pass = $2',
                          [req.param('name'), util.getStretchedPassword(req.param('pass'),
                                                                        req.param('name'),
                                                                        process.env.STRETCH_TIMES)],
-                         function(err, result) {
-                             if (null === err &&
-                                 undefined !== result.rows[0] &&
-                                 result.rows[0].name === req.param('name')) {
-                                 req.session.name = req.param('name');
-                             }
-                             res.render('login-done', {
-                                 title: 'Newgle - login done',
-                                 name: req.session.name,
-                                 result: result,
-                                 err: err
-                             });
+                         function(err, selectResult) {
+                             callback(null, selectResult);
                          });
-        } else {
-            res.send('It seems connecting to the PostgreSQL failed.');
+        }, function(selectResult, callback) {
+            req.session.name = (undefined === selectResult.rows[0]) ? undefined : req.param('name');
+            res.render('login-done', {
+                title: 'Newgle - login done',
+                name: req.session.name,
+                result: selectResult
+            });
+            callback(null, 'done');
         }
+    ];
+
+    async.waterfall(tasks, function(err, result) {
+        if (err) { console.err(err); }
     });
 });
 app.get('/signup', router.domainCheck, function(req, res) {
