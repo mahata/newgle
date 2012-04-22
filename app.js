@@ -193,8 +193,7 @@ app.get('/api', router.domainCheck, function(req, res) {
     };
 
     if (undefined === req.session.name) {
-        // bing.search(params, function(err, result) { // Bing is the default search engine
-        yahoo.search(params, function(err, result) { // Bing is the default search engine
+        bing.search(params, function(err, result) { // Bing is the default search engine
             res.setHeader("Content-Type", "application/json; charset=utf-8");
             res.send(result);
         });
