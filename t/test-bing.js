@@ -3,10 +3,10 @@ var assert = require("assert");
 
 console.log("Bing Test Start.");
 
-vows.describe("Search Library").addBatch({
-    "Bing Search": {
+vows.describe("Bing Search Library").addBatch({
+    "bing variable": {
         topic: require(__dirname + "/../lib/bing"),
-        "is a object": function(topic) {
+        "is an object": function(topic) {
             assert.equal("object", typeof topic);
         },
         "has a search function": function(topic) {
@@ -15,12 +15,12 @@ vows.describe("Search Library").addBatch({
         "in search function": {
             topic: function(bing) {
                 var params = {
-                    q: "google",
+                    q: "bing",
                     p: 1
                 };
                 bing.search(params, this.callback);
             },
-            "there is search result": function(err, result) {
+            "there are search results": function(err, result) {
                 var search_result = JSON.parse(result);
                 assert.equal(0 < parseInt(search_result.SearchResponse.Web.Total), true);
             }
