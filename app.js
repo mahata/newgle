@@ -44,7 +44,6 @@ app.configure('production', function() {
 // Routes
 app.get('/', router.domainCheck, function(req, res) {
     if (undefined !== req.param('q')) {
-        console.log('redirect');
         res.redirect('/#q=' + req.param('q') + '&p=1');
         return;
     }
@@ -184,7 +183,8 @@ app.post('/signup', router.domainCheck, function(req, res) {
 });
 app.get('/logout', router.domainCheck, function(req, res) {
     delete req.session.name;
-    res.send('Logout finished.');
+    // res.send('Logout finished.');
+    res.redirect('/');
 });
 app.get('/api', router.domainCheck, function(req, res) {
     var params = {
