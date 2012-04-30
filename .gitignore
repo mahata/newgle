@@ -3,4 +3,6 @@ log.db
 logfile
 heroku-add-config.py
 local-add-config.sh
+TAGS
 *.log
+.DS_Store
