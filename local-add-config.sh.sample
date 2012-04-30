@@ -19,3 +19,5 @@ export PGSQL_PORT="5432"
 export SECRET_KEY="development key"
 export STRETCH_TIMES="10000"
 export SERVICE_DOMAIN="localhost:3000"
+
+export REDISTOGO_URL="redis://xxx:@localhost:6379/" # MODIFY ME
