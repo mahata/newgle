@@ -86,7 +86,7 @@ client.search = function() {
 
         $.cookie('search-lock', 0);
     });
-}
+};
 
 client.getHashParams = function(locHash) {
     var urlParams = {},

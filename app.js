@@ -9,7 +9,10 @@ var express = require('express'),
     fs = require('fs'),
     pg = require('pg'),
     http = require('http'),
+    url = require('url'),
     crypto = require('crypto'),
+    RedisStore = require('connect-redis')(express),
+
     // scheme = require('biwascheme'),
 
     bing = require(__dirname + "/lib/bing"),
@@ -23,12 +26,26 @@ var express = require('express'),
 
 // Configuration
 app.configure(function() {
+    var parsed_url = url.parse(process.env.REDISTOGO_URL),
+        parsed_auth = (parsed_url.auth || '').split(':');
+
+    console.log(parsed_auth);
+    console.log(parsed_url.hostname);
+    console.log(parsed_url.port);
+
     app.set('views', __dirname + '/views');
     app.set('view engine', 'jade');
     app.use(express.bodyParser());
     app.use(express.methodOverride());
     app.use(express.cookieParser());
-    app.use(express.session({secret: 'aa'}));
+    app.use(express.session({
+        secret: process.env.SECRET_KEY,
+        store: new RedisStore({
+            host: parsed_url.hostname,
+            port: parsed_url.port,
+            pass: parsed_auth[1]
+        })
+    }));
     app.use(app.router);
     app.use(express.static(__dirname + '/public'));
 });
