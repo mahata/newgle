@@ -40,6 +40,7 @@ app.configure(function() {
     app.use(express.cookieParser());
     app.use(express.session({
         secret: process.env.SECRET_KEY,
+        cookie: { maxAge: 31557600000 }, // one year
         store: new RedisStore({
             host: parsed_url.hostname,
             port: parsed_url.port,
