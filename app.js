@@ -29,10 +29,6 @@ app.configure(function() {
     var parsed_url = url.parse(process.env.REDISTOGO_URL),
         parsed_auth = (parsed_url.auth || '').split(':');
 
-    console.log(parsed_auth);
-    console.log(parsed_url.hostname);
-    console.log(parsed_url.port);
-
     app.set('views', __dirname + '/views');
     app.set('view engine', 'jade');
     app.use(express.bodyParser());
