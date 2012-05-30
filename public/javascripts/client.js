@@ -103,7 +103,6 @@ client.getHashParams = function(locHash) {
 
 // emphasize keyword from a text
 client.emphasizeKeyword = function(text, keyword) {
-    // var keywordList = keyword.replace(/[　\s]+/, " ").split(" ");
     var keywordList = keyword.trim().replace(/[　\s]+/, " ").split(" ");
 
     for (var i = 0; i < keywordList.length; i++) {
