@@ -10,6 +10,7 @@ client.search = function() {
 
     $.cookie('search-lock', 1);
     $("#search-region").css("opacity", "0.3");
+    $("#search-region").html('<div id="loading"><img src="/images/loading.gif" alt="検索中" /></div>');
     $.getJSON("/api", {
         q: $("#q").val(),
         p: page
