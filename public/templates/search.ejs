@@ -13,7 +13,7 @@
 </p>
 
 <div class="search-result-subtle-info">
-<span class="search-result-disp-url"><%= url_decode(Web.Results[i].DisplayUrl) %></span>
+<span class="search-result-disp-url"><%= emphasize_keyword(url_decode(Web.Results[i].DisplayUrl), Query.SearchTerms) %></span>
  - <a href="<%= Web.Results[i].CacheUrl %>" class="search-result-cache">キャッシュ</a>
 
 <% if (Web.Results[i].DeepLinks) { %>
