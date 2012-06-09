@@ -6,14 +6,16 @@ client.refresh = function(page) {
 };
 
 client.search = function() {
-    var page = client.getHashParams(location.hash).p ? client.getHashParams(location.hash).p : 1;
+    var page = client.getHashParams(location.hash).p ? client.getHashParams(location.hash).p : 1,
+        searchEngine = localStorage.getItem("search-engine") ? localStorage.getItem("search-engine") : "bing";
 
     $.cookie('search-lock', 1);
     $("#search-region").css("opacity", "0.3");
     $("#search-region").html('<div id="loading"><img src="/images/loading.gif" alt="検索中" /></div>');
     $.getJSON("/api", {
-        q: $("#q").val(),
-        p: page
+        "q": $("#q").val(),
+        "p": page,
+        "search-engine": searchEngine
     }, function(json) {
         document.title = 'Newgle - ' + $('#q').val();
         $("#search-summary").css("display","block");
@@ -28,13 +30,11 @@ client.search = function() {
         if (undefined === json.SearchResponse.Web.Results) {
             $('#search-region').append('<p>検索の結果、全くページが見つかりませんでした...。</p>');
         } else {
-            var search_result = new EJS({url: "../templates/search.ejs"}).render(json.SearchResponse);
+            var search_result = new EJS({url: "../templates/search.ejs"}).render({"SearchResponse": json.SearchResponse,
+                                                                                  "displayThumbnail": localStorage.getItem("display-thumbnail")}),
+                pagingHtml = "";
             $("#search-region").append(search_result);
-            // $.each($('.search-result-desc'), function(i, desc) {
-            //     $('#search-result-desc-id-' + i).html(client.emphasizeKeyword($(desc).text(), $("#q").val()));
-            // });
 
-            var pagingHtml = "";
             if (1 < page) {
                 pagingHtml += "<a href=\"javascript:void(0);\" onclick=\"client.refresh(" + (parseInt(page, 10) - 1) + "); return false;\">&laquo; 前の検索結果を見る</a>";
             }
@@ -48,6 +48,9 @@ client.search = function() {
         location.hash = "#q=" + $("#q").val() + "&p=" + page;
         $("#search-region").css("opacity", "1.0");
 
+        $("#search-logo-image").attr("src", "/images/" + searchEngine + "-logo.png");
+        $("#search-logo-url").attr("href", client.getSearchAboutUrl(searchEngine));
+
         $.cookie('search-lock', 0);
     });
 };
@@ -60,23 +63,27 @@ client.getHashParams = function(locHash) {
         d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
         q = locHash.substring(1);
 
-    while (e = r.exec(q))
+    while (e = r.exec(q)) {
         urlParams[d(e[1])] = d(e[2]);
+    }
 
     return urlParams;
 };
 
-// emphasize keyword from a text (will be removed)
-// client.emphasizeKeyword = function(text, keyword) {
-//     var keywordList = keyword.trim().replace(/[　\s]+/, " ").split(" ");
+client.getSearchAboutUrl = function(serviceName) {
+    switch (serviceName) {
+    case "yahoo":
+        return "http://developer.yahoo.co.jp/about";
+        break;
+    case "bing":
+        return "http://www.bing.com/toolbox/bingdeveloper/";
+        break;
+    default:
+        break;
+    }
 
-//     for (var i = 0; i < keywordList.length; i++) {
-//         var reg = new RegExp("(" + keywordList[i] + ")", "gi");
-//         text = text.replace(reg, "<strong>$1</strong>");
-//     }
-
-//     return text;
-// };
+    return false;
+};
 
 $(function(){
     // for paging like: search result => search page using BACK button of browsers
@@ -94,4 +101,3 @@ $(function(){
         }
     });
 });
-

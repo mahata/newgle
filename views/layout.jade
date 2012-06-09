@@ -4,10 +4,14 @@ html(lang="ja")
     title= title
     link(rel="stylesheet", href="/stylesheets/style.css")
     link(rel="shortcut icon", href="/images/favicon.ico")
-    script(type="text/javascript", src="/javascripts/jquery-1.7.min.js ")
+    script(type="text/javascript", src="/javascripts/jquery-1.7.min.js")
+    // script(type="text/javascript", src="/javascripts/jsdeferred.jquery.js")
     script(type="text/javascript", src="/javascripts/jquery.cookie.js")
-    script(type="text/javascript", src="/javascripts/ejs/ejs.js")
-    script(type="text/javascript", src="/javascripts/ejs/view.js")
-    script(type="text/javascript", src="/javascripts/client.js")
+    - if (js == 'client')
+      script(type="text/javascript", src="/javascripts/ejs/ejs.js")
+      script(type="text/javascript", src="/javascripts/ejs/view.js")
+      script(type="text/javascript", src="/javascripts/client.js")
+    - else if (js == 'config')
+      script(type="text/javascript", src="/javascripts/config.js")
 
   body!= body

@@ -1,34 +1,65 @@
-<% for (var i = 0; i < Web.Results.length; i++) { %>
-<li>
-<div class="search-result">
+<% if (displayThumbnail == "on") { %>
+  <% for (var i = 0; i < SearchResponse.Web.Results.length; i++) { %>
+    <li>
+    <div class="search-result">
 
-<div class="search-result-left">
-<a href="<%= Web.Results[i].Url %>"><img alt="" src="http://img.simpleapi.net/small/<%= Web.Results[i].Url %>"></a>
-</div>
+    <div class="search-result-left">
+    <a href="<%= SearchResponse.Web.Results[i].Url %>"><img alt="" src="http://img.simpleapi.net/small/<%= SearchResponse.Web.Results[i].Url %>"></a>
+    </div>
 
-<div class="search-result-right">
-<h2 class="search-result-title"><a href="<%= Web.Results[i].Url %>"><%= escape_tag(Web.Results[i].Title) %></a></h2>
-<p id="search-result-desc-id-<%= i %>" class="search-result-desc">
-<%= emphasize_keyword(escape_tag(Web.Results[i].Description), Query.SearchTerms) %>
-</p>
+    <div class="search-result-right">
+    <h2 class="search-result-title"><a href="<%= SearchResponse.Web.Results[i].Url %>"><%= escape_tag(SearchResponse.Web.Results[i].Title) %></a></h2>
+    <p id="search-result-desc-id-<%= i %>" class="search-result-desc">
+    <%= emphasize_keyword(escape_tag(SearchResponse.Web.Results[i].Description), SearchResponse.Query.SearchTerms) %>
+    </p>
 
-<div class="search-result-subtle-info">
-<span class="search-result-disp-url"><%= emphasize_keyword(url_decode(Web.Results[i].DisplayUrl), Query.SearchTerms) %></span>
- - <a href="<%= Web.Results[i].CacheUrl %>" class="search-result-cache">キャッシュ</a>
+    <div class="search-result-subtle-info">
+    <span class="search-result-disp-url"><%= emphasize_keyword(url_decode(SearchResponse.Web.Results[i].DisplayUrl), SearchResponse.Query.SearchTerms) %></span>
+     - <a href="<%= SearchResponse.Web.Results[i].CacheUrl %>" class="search-result-cache">キャッシュ</a>
 
-<% if (Web.Results[i].DeepLinks) { %>
-<div class="search-result-deep-link"><strong>もっと見る:</strong>
-<% for (var j = 0; j < Web.Results[i].DeepLinks.length; j++) { %>
-- <a href="<%= Web.Results[i].DeepLinks[j].Url %>"><%= escape_tag(Web.Results[i].DeepLinks[j].Title) %></a>
-<% } %>
-</div>
-<% } %>
+    <% if (SearchResponse.Web.Results[i].DeepLinks) { %>
+      <div class="search-result-deep-link"><strong>もっと見る:</strong>
+      <% for (var j = 0; j < SearchResponse.Web.Results[i].DeepLinks.length; j++) { %>
+        - <a href="<%= SearchResponse.Web.Results[i].DeepLinks[j].Url %>"><%= escape_tag(SearchResponse.Web.Results[i].DeepLinks[j].Title) %></a>
+      <% } %>
+      </div>
+    <% } %>
 
-<p style="clear: both;"></p>
+    <p style="clear: both;"></p>
 
-</div>
-</div>
-</div>
+    </div>
+    </div>
+    </div>
 
-</li>
+    </li>
+  <% } %>
+<% } else { %>
+  <% for (var i = 0; i < SearchResponse.Web.Results.length; i++) { %>
+    <li>
+    <div class="search-result">
+
+    <h2 class="search-result-title"><a href="<%= SearchResponse.Web.Results[i].Url %>"><%= escape_tag(SearchResponse.Web.Results[i].Title) %></a></h2>
+    <p id="search-result-desc-id-<%= i %>" class="search-result-desc">
+    <%= emphasize_keyword(escape_tag(SearchResponse.Web.Results[i].Description), SearchResponse.Query.SearchTerms) %>
+    </p>
+
+    <div class="search-result-subtle-info">
+    <span class="search-result-disp-url"><%= emphasize_keyword(url_decode(SearchResponse.Web.Results[i].DisplayUrl), SearchResponse.Query.SearchTerms) %></span>
+     - <a href="<%= SearchResponse.Web.Results[i].CacheUrl %>" class="search-result-cache">キャッシュ</a>
+
+    <% if (SearchResponse.Web.Results[i].DeepLinks) { %>
+      <div class="search-result-deep-link"><strong>もっと見る:</strong>
+      <% for (var j = 0; j < SearchResponse.Web.Results[i].DeepLinks.length; j++) { %>
+        - <a href="<%= SearchResponse.Web.Results[i].DeepLinks[j].Url %>"><%= escape_tag(SearchResponse.Web.Results[i].DeepLinks[j].Title) %></a>
+      <% } %>
+      </div>
+    <% } %>
+
+    <p style="clear: both;"></p>
+
+    </div>
+    </div>
+
+    </li>
+  <% } %>
 <% } %>

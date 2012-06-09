@@ -1,13 +1,5 @@
 span
-  - if (name)
-      | こんにちは、
-      strong
-        a(href="/config") #{name}
-      | さん。
-  - else
-      a(href="/login") ログイン
-      span &nbsp;-&nbsp;
-      a(href="/signup") サインアップ
+  a(href="/config") 設定
   span &nbsp;-&nbsp;
     a(href="/help") ヘルプ
 

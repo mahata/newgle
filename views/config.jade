@@ -6,26 +6,31 @@ div(id="main")
   h2 設定
 
   div(id="config")
-    form(method="POST")
-      table
-        tbody
-          tr
-            td
-              検索エンジン
-            td
-              ul
-                li
-                  - if ('bing' == search_engine)
-                    input(autofocus, checked="checked", id="bing", name="search-engine", type="radio", value="bing")
-                  - else
-                    input(id="bing", name="search-engine", type="radio", value="bing")
-                  label(for="bing") &nbsp;Bing
-                li
-                  - if ('yahoo' == search_engine)
-                    input(checked="checked", id="yahoo", name="search-engine", type="radio", value="yahoo")
-                  - else
-                    input(id="yahoo", name="search-engine", type="radio", value="yahoo")
-                  label(for="yahoo") &nbsp;Yahoo!
-          tr
-            td(cols="2")
-              input(type="submit", value="設定")
+    table
+      tbody
+        div(id="message")
+        tr
+          td
+            検索エンジン
+          td
+            ul
+              li
+                input(id="bing", class="search-engine", name="search-engine", type="radio", value="bing")
+                label(for="bing") &nbsp;Bing
+              li
+                input(id="yahoo", class="search-engine", name="search-engine", type="radio", value="yahoo")
+                label(for="yahoo") &nbsp;Yahoo!
+        tr
+          td
+            サムネイル
+          td
+            ul
+              li
+                input(id="on", class="display-thumbnail", name="display-thumbnail", type="radio", value="on")
+                label(for="on") &nbsp;表示する
+              li
+                input(id="off", class="display-thumbnail", name="display-thumbnail", type="radio", value="off")
+                label(for="off") &nbsp;表示しない
+        tr
+          td(cols="2")
+            input(id="return", type="submit", value="戻る")

@@ -95,6 +95,7 @@ ul.search-result-deep-link {
     text-align: center;
 }
 
-#bing-logo {
-    display: none;
+div#message {
+    color: #f00;
+    font-weight: bold;
 }
