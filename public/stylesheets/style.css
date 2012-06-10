@@ -59,15 +59,16 @@ div.search-result-subtle-info {
 }
 
 p.search-result-desc {
-    margin: 2px 0px 0px 0px;
+    // margin: 2px 0px 0px 0px;
+    margin: 5px 0px 5px;
 }
 
 span.search-result-disp-url {
     color: #0e774a;
 }
 
-ul.search-result-deep-link {
-    margin-top: 2px;
+div.search-result-deep-link {
+    margin-top: 5px;
     font-size: small;
 }
 
