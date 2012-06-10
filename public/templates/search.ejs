@@ -15,7 +15,9 @@
 
     <div class="search-result-subtle-info">
     <span class="search-result-disp-url"><%= emphasize_keyword(url_decode(SearchResponse.Web.Results[i].DisplayUrl), SearchResponse.Query.SearchTerms) %></span>
-     - <a href="<%= SearchResponse.Web.Results[i].CacheUrl %>" class="search-result-cache">キャッシュ</a>
+    <% if (SearchResponse.Web.Results[i].CacheUrl) { %>
+    - <a href="<%= SearchResponse.Web.Results[i].CacheUrl %>" class="search-result-cache">キャッシュ</a>
+    <% } %>
 
     <% if (SearchResponse.Web.Results[i].DeepLinks) { %>
       <div class="search-result-deep-link"><strong>もっと見る:</strong>
@@ -45,7 +47,9 @@
 
     <div class="search-result-subtle-info">
     <span class="search-result-disp-url"><%= emphasize_keyword(url_decode(SearchResponse.Web.Results[i].DisplayUrl), SearchResponse.Query.SearchTerms) %></span>
-     - <a href="<%= SearchResponse.Web.Results[i].CacheUrl %>" class="search-result-cache">キャッシュ</a>
+    <% if (SearchResponse.Web.Results[i].CacheUrl) { %>
+    - <a href="<%= SearchResponse.Web.Results[i].CacheUrl %>" class="search-result-cache">キャッシュ</a>
+    <% } %>
 
     <% if (SearchResponse.Web.Results[i].DeepLinks) { %>
       <div class="search-result-deep-link"><strong>もっと見る:</strong>
