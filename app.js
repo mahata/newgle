@@ -59,7 +59,8 @@ app.get('/config', router.domainCheck, function(req, res) {
 });
 app.get('/help', router.domainCheck, function(req, res) {
     res.render('help', {
-        "title": 'Newgle - help'
+        "title": 'Newgle - help',
+        "js": ""
     });
 });
 app.get('/api', router.domainCheck, function(req, res) {
