@@ -209,7 +209,8 @@ EJS.Helpers.prototype.url_decode = function(url) {
 };
 
 EJS.Helpers.prototype.emphasize_keyword = function(text, keyword) {
-    var keyword_list = keyword.trim().replace(/[　\s]+/, " ").split(" ");
+    // var keyword_list = keyword.trim().replace(/[　\s]+/, " ").split(" "); // IE 8 sucks
+    var keyword_list = keyword.replace(/^(\s|　)+|(\s|　)+$/g, '').replace(/[　\s]+/, " ").split(" ");
 
     for (var i = 0; i < keyword_list.length; i++) {
         var reg = new RegExp("(" + keyword_list[i] + ")", "gi");
