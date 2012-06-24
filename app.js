@@ -3,16 +3,6 @@
  */
 
 var express = require('express'),
-    // async = require('async'),
-    // io = require('socket.io'),
-    // db = require('dirty')('log.db'),
-    // fs = require('fs'),
-    // pg = require('pg'),
-    // http = require('http'),
-    // url = require('url'),
-    // crypto = require('crypto'),
-    // router = require(__dirname + "/lib/router"),
-
     bing = require(__dirname + "/lib/bing"),
     yahoo = require(__dirname + "/lib/yahoo"),
     engine = {"bing": bing, "yahoo": yahoo},
@@ -36,10 +26,6 @@ app.configure('production', function() {
     express.logger('production mode');
     app.use(express.errorHandler());
 });
-
-// app.get('/', function(req, res) {
-//     res.send("Hello, world!");
-// });
 
 // Routes
 app.get('/', function(req, res) {
