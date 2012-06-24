@@ -37,23 +37,23 @@ app.configure('production', function() {
     app.use(express.errorHandler());
 });
 
-app.get('/', function(req, res) {
-    res.send("Hello, world!");
-});
+// app.get('/', function(req, res) {
+//     res.send("Hello, world!");
+// });
 
 // Routes
-// app.get('/', router.domainCheck, function(req, res) {
-//     if (undefined !== req.param('q')) {
-//         res.redirect('/#q=' + req.param('q') + '&p=1');
-//         return;
-//     }
+app.get('/', function(req, res) {
+    if (undefined !== req.param('q')) {
+        res.redirect('/#q=' + req.param('q') + '&p=1');
+        return;
+    }
 
-//     res.render('search', {
-//         "js": "client",
-//         "searchBox": true,
-//         "title": "Newgle"
-//     });
-// });
+    res.render('search', {
+        "js": "client",
+        "searchBox": true,
+        "title": "Newgle"
+    });
+});
 app.get('/config', function(req, res) {
     res.render('config', {
         "js": 'config',
@@ -73,8 +73,6 @@ app.get('/api', function(req, res) {
         },
         searchEngine = engine[req.param("search-engine")];
 
-    console.log("engine: " + req.param("search-engine"));
-    console.log("searchEngine: " + searchEngine);
     searchEngine.search(params, function(err, result) {
         res.setHeader("Content-Type", "application/json; charset=utf-8");
         res.send(result);
