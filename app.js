@@ -11,7 +11,7 @@ var express = require('express'),
     // http = require('http'),
     // url = require('url'),
     // crypto = require('crypto'),
-    // router = require(__dirname + "/lib/router"),
+    router = require(__dirname + "/lib/router"),
 
     // bing = require(__dirname + "/lib/bing"),
     // yahoo = require(__dirname + "/lib/yahoo"),
@@ -54,18 +54,18 @@ app.get('/', function(req, res) {
 //         "title": "Newgle"
 //     });
 // });
-// app.get('/config', router.domainCheck, function(req, res) {
-//     res.render('config', {
-//         "js": 'config',
-//         "title": 'Newgle - config'
-//     });
-// });
-// app.get('/help', router.domainCheck, function(req, res) {
-//     res.render('help', {
-//         "title": 'Newgle - help',
-//         "js": ""
-//     });
-// });
+app.get('/config', router.domainCheck, function(req, res) {
+    res.render('config', {
+        "js": 'config',
+        "title": 'Newgle - config'
+    });
+});
+app.get('/help', router.domainCheck, function(req, res) {
+    res.render('help', {
+        "title": 'Newgle - help',
+        "js": ""
+    });
+});
 // app.get('/api', router.domainCheck, function(req, res) {
 //     var params = {
 //             "q": req.param("q"),
