@@ -13,9 +13,9 @@ var express = require('express'),
     // crypto = require('crypto'),
     // router = require(__dirname + "/lib/router"),
 
-    // bing = require(__dirname + "/lib/bing"),
-    // yahoo = require(__dirname + "/lib/yahoo"),
-    // engine = {"bing": bing, "yahoo": yahoo},
+    bing = require(__dirname + "/lib/bing"),
+    yahoo = require(__dirname + "/lib/yahoo"),
+    engine = {"bing": bing, "yahoo": yahoo},
 
     app = module.exports = express.createServer();
 
@@ -66,18 +66,18 @@ app.get('/help', function(req, res) {
         "js": ""
     });
 });
-// app.get('/api', router.domainCheck, function(req, res) {
-//     var params = {
-//             "q": req.param("q"),
-//             "p": req.param("p") ? req.param("p") : 1
-//         },
-//         searchEngine = engine[req.param("search-engine")];
+app.get('/api', function(req, res) {
+    var params = {
+            "q": req.param("q"),
+            "p": req.param("p") ? req.param("p") : 1
+        },
+        searchEngine = engine[req.param("search-engine")];
 
-//     searchEngine.search(params, function(err, result) {
-//         res.setHeader("Content-Type", "application/json; charset=utf-8");
-//         res.send(result);
-//     });
-// });
+    searchEngine.search(params, function(err, result) {
+        res.setHeader("Content-Type", "application/json; charset=utf-8");
+        res.send(result);
+    });
+});
 
 if (!module.parent) {
     app.listen(process.env.PORT || 3000);
