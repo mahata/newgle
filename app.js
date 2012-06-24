@@ -73,6 +73,8 @@ app.get('/api', function(req, res) {
         },
         searchEngine = engine[req.param("search-engine")];
 
+    console.log("engine: " + req.param("search-engine"));
+    console.log("searchEngine: " + searchEngine);
     searchEngine.search(params, function(err, result) {
         res.setHeader("Content-Type", "application/json; charset=utf-8");
         res.send(result);
