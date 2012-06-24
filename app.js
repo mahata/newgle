@@ -3,20 +3,19 @@
  */
 
 var express = require('express'),
-    async = require('async'),
-    io = require('socket.io'),
-    db = require('dirty')('log.db'),
-    fs = require('fs'),
-    pg = require('pg'),
-    http = require('http'),
-    url = require('url'),
-    crypto = require('crypto'),
-    // RedisStore = require('connect-redis')(express),
-    router = require(__dirname + "/lib/router"),
+    // async = require('async'),
+    // io = require('socket.io'),
+    // db = require('dirty')('log.db'),
+    // fs = require('fs'),
+    // pg = require('pg'),
+    // http = require('http'),
+    // url = require('url'),
+    // crypto = require('crypto'),
+    // router = require(__dirname + "/lib/router"),
 
-    bing = require(__dirname + "/lib/bing"),
-    yahoo = require(__dirname + "/lib/yahoo"),
-    engine = {"bing": bing, "yahoo": yahoo},
+    // bing = require(__dirname + "/lib/bing"),
+    // yahoo = require(__dirname + "/lib/yahoo"),
+    // engine = {"bing": bing, "yahoo": yahoo},
 
     app = module.exports = express.createServer();
 
@@ -38,43 +37,47 @@ app.configure('production', function() {
     app.use(express.errorHandler());
 });
 
+app.get('/', function(req, res) {
+    res.send("Hello, world!");
+});
+
 // Routes
-app.get('/', router.domainCheck, function(req, res) {
-    if (undefined !== req.param('q')) {
-        res.redirect('/#q=' + req.param('q') + '&p=1');
-        return;
-    }
+// app.get('/', router.domainCheck, function(req, res) {
+//     if (undefined !== req.param('q')) {
+//         res.redirect('/#q=' + req.param('q') + '&p=1');
+//         return;
+//     }
 
-    res.render('search', {
-        "js": "client",
-        "searchBox": true,
-        "title": "Newgle"
-    });
-});
-app.get('/config', router.domainCheck, function(req, res) {
-    res.render('config', {
-        "js": 'config',
-        "title": 'Newgle - config'
-    });
-});
-app.get('/help', router.domainCheck, function(req, res) {
-    res.render('help', {
-        "title": 'Newgle - help',
-        "js": ""
-    });
-});
-app.get('/api', router.domainCheck, function(req, res) {
-    var params = {
-            "q": req.param("q"),
-            "p": req.param("p") ? req.param("p") : 1
-        },
-        searchEngine = engine[req.param("search-engine")];
+//     res.render('search', {
+//         "js": "client",
+//         "searchBox": true,
+//         "title": "Newgle"
+//     });
+// });
+// app.get('/config', router.domainCheck, function(req, res) {
+//     res.render('config', {
+//         "js": 'config',
+//         "title": 'Newgle - config'
+//     });
+// });
+// app.get('/help', router.domainCheck, function(req, res) {
+//     res.render('help', {
+//         "title": 'Newgle - help',
+//         "js": ""
+//     });
+// });
+// app.get('/api', router.domainCheck, function(req, res) {
+//     var params = {
+//             "q": req.param("q"),
+//             "p": req.param("p") ? req.param("p") : 1
+//         },
+//         searchEngine = engine[req.param("search-engine")];
 
-    searchEngine.search(params, function(err, result) {
-        res.setHeader("Content-Type", "application/json; charset=utf-8");
-        res.send(result);
-    });
-});
+//     searchEngine.search(params, function(err, result) {
+//         res.setHeader("Content-Type", "application/json; charset=utf-8");
+//         res.send(result);
+//     });
+// });
 
 if (!module.parent) {
     app.listen(process.env.PORT || 3000);

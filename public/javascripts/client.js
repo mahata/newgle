@@ -100,4 +100,30 @@ $(function(){
             client.search();
         }
     });
+
+//// Experimental
+// var calc = new Gin.Grammar({
+//   Expr: / Term ([+] Term:add | [-] Term:sub)* /,
+//   Term: / Fctr ([*] Fctr:mul | [/] Fctr:div)* /,
+//   Fctr: / $INT:push | [(] Expr [)] /
+// }, "Expr", Gin.SPACE);
+
+// function CalcHandler() { this._stack = []; }
+// CalcHandler.prototype = {
+//   push: function (v) { this._stack.push(v); },
+//   pop: function () { return this._stack.pop(); },
+//   add: function (v) { var b = this.pop(), a = this.pop(); this.push(a + b); },
+//   sub: function (v) { var b = this.pop(), a = this.pop(); this.push(a - b); },
+//   mul: function (v) { var b = this.pop(), a = this.pop(); this.push(a * b); },
+//   div: function (v) { var b = this.pop(), a = this.pop(); this.push(a / b); }
+// };
+
+// function parseExpr() {
+//   var handler = new CalcHandler();
+//   var match = calc.parse("1 + 2 / (3 - 4) + 5 * 6", handler);
+//   console.log((match && match.full) ? handler.pop() : "Error: 計算式が間違っています");
+// }
+
+// parseExpr();
+
 });
