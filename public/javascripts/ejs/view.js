@@ -221,5 +221,6 @@ EJS.Helpers.prototype.emphasize_keyword = function(text, keyword) {
 };
 
 EJS.Helpers.prototype.escape_tag = function(text) {
+    if (text === undefined) { return ""; }
     return text.split('<').join("&lt;").split('>').join("&gt;");
 };
