@@ -12,15 +12,13 @@ bing_search_host = "api.search.live.net"
 bing_search_path = "/json.aspx"
 bing_search_app_id = "MODIFY ME"
 
+azure_bing_search_host = "api.datamarket.azure.com"
+azure_bing_search_path = "/Data.ashx/Bing/Search/Web"
+azure_bing_account_key = "MODIFY ME"
+
 yahoo_search_host = "search.yahooapis.jp"
 yahoo_search_path = "/PremiumWebSearchService/V1/webSearch"
 yahoo_search_app_id = "MODIFY ME"
-
-pgsql_db = ""
-pgsql_user = ""
-pgsql_pass = ""
-pgsql_host = ""
-pgsql_port = "5432"
 
 secret_key = "MODIFY ME"
 stretch_times = "10000"
@@ -28,19 +26,17 @@ service_domain = "newgle.mahata.net"
 
 os.system('%s config:add --app %s NODE_ENV=%s' % (heroku, app, node_env))
 
-os.system('%s config:add --app %s BING_SEARCH_HOST=%s'     % (heroku, app, bing_search_host))
+os.system('%s config:add --app %s BING_SEARCH_HOST="%s"'   % (heroku, app, bing_search_host))
 os.system('%s config:add --app %s BING_SEARCH_PATH="%s"'   % (heroku, app, bing_search_path))
 os.system('%s config:add --app %s BING_SEARCH_APP_ID="%s"' % (heroku, app, bing_search_app_id))
+
+os.system('%s config:add --app %s AZURE_BING_SEARCH_HOST="%s"' % (heroku, app, azure_bing_search_host))
+os.system('%s config:add --app %s AZURE_BING_SEARCH_PATH="%s"' % (heroku, app, azure_bing_search_path))
+os.system('%s config:add --app %s AZURE_BING_ACCOUNT_KEY="%s"' % (heroku, app, azure_bing_account_key))
 
 os.system('%s config:add --app %s YAHOO_SEARCH_HOST=%s'     % (heroku, app, yahoo_search_host))
 os.system('%s config:add --app %s YAHOO_SEARCH_PATH="%s"'   % (heroku, app, yahoo_search_path))
 os.system('%s config:add --app %s YAHOO_SEARCH_APP_ID="%s"' % (heroku, app, yahoo_search_app_id))
-
-os.system('%s config:add --app %s PGSQL_DB="%s"'   % (heroku, app, pgsql_db))
-os.system('%s config:add --app %s PGSQL_USER="%s"' % (heroku, app, pgsql_user))
-os.system('%s config:add --app %s PGSQL_PASS="%s"' % (heroku, app, pgsql_pass))
-os.system('%s config:add --app %s PGSQL_HOST="%s"' % (heroku, app, pgsql_host))
-os.system('%s config:add --app %s PGSQL_PORT=%s'   % (heroku, app, pgsql_port))
 
 os.system('%s config:add --app %s SECRET_KEY=%s'     % (heroku, app, secret_key))
 os.system('%s config:add --app %s STRETCH_TIMES=%s'  % (heroku, app, stretch_times))

@@ -6,18 +6,14 @@ export BING_SEARCH_HOST="api.search.live.net"
 export BING_SEARCH_PATH="/json.aspx"
 export BING_SEARCH_APP_ID=""
 
+export AZURE_BING_SEARCH_HOST="api.datamarket.azure.com"
+export AZURE_BING_SEARCH_PATH="/Data.ashx/Bing/Search/Web"
+export AZURE_BING_ACCOUNT_KEY=""
+
 export YAHOO_SEARCH_HOST="search.yahooapis.jp"
 export YAHOO_SEARCH_PATH="/PremiumWebSearchService/V1/webSearch"
 export YAHOO_SEARCH_APP_ID=""
 
-export PGSQL_DB="newgle"
-export PGSQL_USER="mahata"
-export PGSQL_PASS=""
-export PGSQL_HOST="localhost"
-export PGSQL_PORT="5432"
-
 export SECRET_KEY="development key"
 export STRETCH_TIMES="10000"
 export SERVICE_DOMAIN="localhost:3000"
-
-export REDISTOGO_URL="redis://xxx:@localhost:6379/" # MODIFY ME
