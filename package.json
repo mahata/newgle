@@ -11,7 +11,7 @@
     , "socket.io": "0.7.7"
     , "jsdom": "0.2.13"
     , "biwascheme": "0.6.1"
-    , "debug": "0.6.0"
+    , "debug": "4.1.1"
     , "connect-redis": "1.3.0"
     , "vows": "0.6.2"
     , "zlib": "1.0.5"
