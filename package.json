@@ -8,7 +8,7 @@
     , "async": "0.1.9"
     , "xmlhttprequest": "1.0.0"
     , "dirty": "0.9.6"
-    , "socket.io": "0.7.7"
+    , "socket.io": "2.3.0"
     , "jsdom": "0.2.13"
     , "biwascheme": "0.6.1"
     , "debug": "0.6.0"
